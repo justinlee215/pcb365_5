@@ -1,0 +1,156 @@
+.description {
+  margin: 4rem 0;
+  line-height: 1.5;
+  font-size: 2rem;
+}
+
+.container {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+  background-color: lightblue;
+}
+
+.code {
+  background: #fafafa;
+  border-radius: 5px;
+  padding: 0.75rem;
+  font-size: 1.1rem;
+  font-family: Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono,
+    Bitstream Vera Sans Mono, Courier New, monospace;
+}
+
+.formBox {
+  display: flex;
+  align-items: center;
+  /* justify-content: center; */
+  /* background-color: lightcoral; */
+  max-width: 100%;
+  flex-wrap: wrap;
+  align-content: flex-start;
+}
+
+.grid {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  max-width: 1200px;
+  padding: 0 2rem;
+  min-height: 280px;
+  /* background-color: #0070f3; */
+}
+
+.card {
+  margin: 1rem;
+  padding: 1.5rem;
+  text-align: left;
+  color: inherit;
+  text-decoration: none;
+  border: 1px solid #eaeaea;
+  border-radius: 10px;
+  transition: color 0.15s ease, border-color 0.15s ease;
+  max-width: 300px;
+  min-height: 150px;
+  min-width: 300px;
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 10px 20px;
+}
+
+.card {
+  transition: 350ms ease-in-out;
+}
+
+.card:hover,
+.card:focus,
+.card:active {
+  transform: scale(1.05);
+  transition: 350ms ease-in-out;
+}
+
+.card h2 {
+  margin: 0 0 1rem 0;
+  font-size: 1.5rem;
+}
+
+.card p {
+  margin: 0;
+  font-size: 1.25rem;
+  line-height: 1.5;
+}
+
+.logo {
+  height: 1em;
+  margin-left: 0.5rem;
+}
+
+.createNewBox {
+  /* background-color: lightblue; */
+  display: flex;
+  justify-content: space-between;
+}
+
+.button {
+  height: 3.5rem;
+  margin: 1.5rem 1rem 0 0;
+  background-color: #002c71;
+  border: none;
+}
+
+.button2 {
+  height: 3.5rem;
+  margin: 1.5rem 1rem 0 0;
+  background-color: #a6182d;
+  border: none;
+}
+
+.button2:hover,
+.button2:active {
+  background-color: #f82646;
+  border: none;
+}
+
+.button:focus {
+  outline: none;
+}
+
+@media (max-width: 600px) {
+  .formBox {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .createNewBox {
+    display: block;
+    padding: 1rem;
+  }
+}
+
+.formLine {
+  padding: 1rem 0.5rem;
+  color: rgb(10, 10, 10);
+}
+
+.lineTitle {
+  color: rgb(100, 100, 100);
+}
+
+.cardLink {
+  display: block;
+  max-width: 300px;
+  /* display: inline; */
+}
+
+.formDetail {
+  width: 600px;
+  height: 950px;
+  padding: 2rem;
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 10px 20px;
+  margin: 2rem 0;
+  border-radius: 5px;
+}
+
+@media (max-width: 600px) {
+}

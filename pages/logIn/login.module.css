@@ -1,0 +1,153 @@
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  transition: 250ms ease-in-out;
+}
+
+.form {
+  width: 450px;
+  padding: 1.3rem;
+  /* margin: 0 auto; */
+  /* display: flex; */
+  /* align-items: center;
+  text-align: center; */
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 10px 20px;
+  /* box-shadow: rgba(17, 17, 26, 0.1) 0px 8px 24px,
+    rgba(17, 17, 26, 0.1) 0px 16px 56px, rgba(17, 17, 26, 0.1) 0px 24px 80px; */
+  transition: 250ms ease-in-out;
+  background-color: rgb(241, 240, 240);
+}
+
+.logo {
+  /* background-color: lightseagreen; */
+}
+
+.logoFacebook {
+  margin: 5rem;
+}
+
+.upperForm {
+  text-align: center;
+  position: relative;
+  transition: 250ms ease-in-out;
+}
+
+.upperFormBackButton {
+  position: absolute;
+  transition: 350ms ease-in-out;
+  cursor: pointer;
+  color: #002c71;
+}
+
+.upperFormBackButton:hover {
+  transform: scale(1.05);
+  transition: 350ms ease-in-out;
+}
+
+.backButton:hover {
+  transform: scale(1.05);
+  transition: 350ms ease-in-out;
+}
+
+.form button {
+  width: 100%;
+  border-radius: 0.2rem;
+  height: 3.4rem;
+  background-color: #002c71;
+  font-size: 0.9em;
+}
+
+.form label {
+  color: darkgray;
+  font-size: 0.8rem;
+  display: none;
+}
+
+.form input[type="email"],
+.form input[type="password"] {
+  margin-bottom: 1rem;
+  /* background-color: lightcoral; */
+  border-radius: 0.2rem;
+  height: 3rem;
+  border: 1px solid #777;
+  color: #333;
+}
+
+.form input::placeholder {
+  color: #777;
+  font-size: 0.8rem;
+}
+.form button {
+  border: none;
+  margin-bottom: 1rem;
+  transition: 250ms ease-in-out;
+}
+
+.form h3 {
+  margin: 2rem 0;
+  font-weight: 300;
+  color: #333;
+}
+
+.or {
+  text-align: center;
+  /* background-color: yellow; */
+  height: 2rem;
+  margin-bottom: 1rem;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+  color: #333;
+}
+
+.forgotButton {
+  color: #002c71;
+  /* color: red; */
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.signupButton {
+  color: #002c71;
+  /* color: red; */
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.form button .oauthButton button {
+  background-color: white;
+  border: var(--pcbColorBlue);
+  /* color: #002c71; */
+  width: 100%;
+  border-radius: 0.2rem;
+  height: 3.4rem;
+  background-color: red;
+  font-size: 0.9em;
+}
+
+.form img {
+  cursor: pointer;
+}
+
+.form button div {
+  transition: 450ms ease-in-out;
+}
+
+.form button:hover {
+  background-color: #002c71;
+}
+
+.form button:hover div {
+  transform: scale(1.1);
+  transition: 450ms;
+}
+
+@media (max-width: 600px) {
+  .form {
+    width: 350px;
+  }
+}
