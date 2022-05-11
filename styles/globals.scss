@@ -31,7 +31,7 @@
   $danger: #ff007f;
   $dark: #5a5a5a;
   $pcbColorRed: #a6182d;
-  $pcbColorBlue: #002c71; 
+  $pcbColorBlue: #002c71; // #002c72
   $offwhite: #f5f5f3;
   $green: #3fe79e;
 
@@ -100,6 +100,8 @@ h1 {
   margin: 2rem 0;
   padding: 2rem 1rem;
   font-size: 3.6rem;
+  font-size: calc(1em + 10vw);
+  color:#0070f3;
 }
 
 h2 {

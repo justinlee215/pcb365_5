@@ -1,6 +1,6 @@
 export let apiAddress;
 
-if (process.env.NODE_ENV === "productions") {
+if (process.env.NODE_ENV === "production") {
   apiAddress = "https://pcb365-4.vercel.app";
 } else {
   // apiAddress = 'http://127.0.0.1'
