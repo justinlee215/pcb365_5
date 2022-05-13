@@ -35,7 +35,8 @@
     "styled-components": "^5.3.5",
     "styled-system": "^5.1.5",
     "theme-ui": "^0.14.1",
-    "use-state-if-mounted": "^1.0.4"
+    "use-state-if-mounted": "^1.0.4",
+    "web-vitals": "^2.1.4"
   },
   "devDependencies": {
     "@babel/core": "^7.17.9",
