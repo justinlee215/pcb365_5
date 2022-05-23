@@ -80,7 +80,12 @@ export async function getStaticProps() {
     return invoice;
   });
 
-  return { props: { canadaCustomsInvoices: canadaCustomsInvoices } };
+  return {
+    props: {
+      canadaCustomsInvoices: canadaCustomsInvoices,
+      revalidate: 2,
+    },
+  };
 }
 
 // export async function getServerSideProps() {

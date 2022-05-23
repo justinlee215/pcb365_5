@@ -8,8 +8,8 @@ import { useRouter } from "next/router";
 
 import styles from "../uscustomsinvoice.module.css";
 
-import { dbConnect } from '../../../../utils/dbConnect'
-import USCustomsInvoice from '../../../../models/USCustomsInvoice'
+import { dbConnect } from "../../../../utils/dbConnect";
+import USCustomsInvoice from "../../../../models/USCustomsInvoice";
 
 import { apiAddress } from "../../../../utils/apiAddress";
 
@@ -23,7 +23,7 @@ export default function ({ usCustomsInvoice }) {
 
     try {
       const deleted = await fetch(
-      `${apiAddress}/api/forms/USCustomsInvoice/${invoice}`,
+        `${apiAddress}/api/forms/USCustomsInvoice/${invoice}`,
         {
           method: "DELETE",
         }
@@ -154,48 +154,50 @@ export default function ({ usCustomsInvoice }) {
   );
 }
 
-// export async function getStaticPaths() {
-//   const res = await fetch(`${apiAddress}/api/forms/USCustomsInvoice`);
-//   const data = await res.json();
+export async function getStaticPaths() {
+  const res = await fetch(`${apiAddress}/api/forms/USCustomsInvoice`);
+  const data = await res.json();
 
-//   console.log("data: ", data);
+  console.log("data: ", data);
 
-//   const paths = data.data.map((invoice) => {
-//     return {
-//       params: { id: invoice._id.toString() },
-//     };
-//   });
+  const paths = data.data.map((invoice) => {
+    return {
+      params: { id: invoice._id.toString() },
+    };
+  });
 
-//   console.log("paths: ", paths);
-//   return {
-//     paths,
-//     fallback: false,
-//   };
-// }
-
-// export async function getStaticProps(context) {
-//   await dbConnect();
-
-//   const result = await USCustomsInvoice.findById({ _id: id });
-//   const invoice = result.toObject();
-//   invoice._id = result._id.toString();
-
-//   console.log("usCustomsInvoice: ", usCustomsInvoice);
-//   return {
-//     props: { usCustomsInvoice: usCustomsInvoice.data },
-//   };
-// }
-
-export async function getServerSideProps({ query: { id } }) {
-    console.log("req: ", id)
-    await dbConnect()
-
-    const result = await USCustomsInvoice.findById({_id: id})
-    const invoice = result.toObject()
-    invoice._id = result._id.toString()
-
-    return { props: { usCustomsInvoice: invoice } }
+  console.log("paths: ", paths);
+  return {
+    paths,
+    fallback: false,
+  };
 }
+
+export async function getStaticProps(context) {
+  console.log("context: ", context);
+  await dbConnect();
+
+  const result = await USCustomsInvoice.findById({ _id: context.params.id });
+  const usCustomsInvoice = result.toObject();
+  usCustomsInvoice._id = result._id.toString();
+
+  console.log("usCustomsInvoice: ", usCustomsInvoice);
+  return {
+    props: { usCustomsInvoice: usCustomsInvoice },
+    revalidate: 2,
+  };
+}
+
+// export async function getServerSideProps({ query: { id } }) {
+//     console.log("req: ", id)
+//     await dbConnect()
+
+//     const result = await USCustomsInvoice.findById({_id: id})
+//     const invoice = result.toObject()
+//     invoice._id = result._id.toString()
+
+//     return { props: { usCustomsInvoice: invoice } }
+// }
 
 // export async function getServerSideProps({ query: { id } }) {
 //   const res = await fetch(

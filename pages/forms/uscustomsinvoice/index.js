@@ -66,6 +66,7 @@ export default function ({ usCustomsInvoices }) {
 }
 
 export async function getStaticProps() {
+  console.log("generating/regenerating: ");
   await dbConnect();
 
   const result = await USCustomsInvoice.find({});
@@ -78,6 +79,7 @@ export async function getStaticProps() {
 
   return {
     props: { usCustomsInvoices: usCustomsInvoices },
+    revalidate: 10,
   };
 }
 

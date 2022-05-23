@@ -155,13 +155,49 @@ export default function ({ canadaCustomsInvoice }) {
   );
 }
 
-export async function getServerSideProps({ query: { id } }) {
-  console.log("req: ", id);
+// export async function getServerSideProps({ query: { id } }) {
+//   console.log("req: ", id);
+//   await dbConnect();
+
+//   const result = await CanadaCustomsInvoice.findById({ _id: id });
+//   const invoice = result.toObject();
+//   invoice._id = result._id.toString();
+
+//   return { props: { canadaCustomsInvoice: invoice } };
+// }
+
+export async function getStaticPaths() {
+  const res = await fetch(`${apiAddress}/api/forms/CanadaCustomsInvoice`);
+  const data = await res.json();
+
+  console.log("data: ", data);
+
+  const paths = data.data.map((invoice) => {
+    return {
+      params: { id: invoice._id.toString() },
+    };
+  });
+
+  console.log("paths: ", paths);
+  return {
+    paths,
+    fallback: false,
+  };
+}
+
+export async function getStaticProps(context) {
+  console.log("context: ", context);
   await dbConnect();
 
-  const result = await CanadaCustomsInvoice.findById({ _id: id });
-  const invoice = result.toObject();
-  invoice._id = result._id.toString();
+  const result = await CanadaCustomsInvoice.findById({
+    _id: context.params.id,
+  });
+  const canadaCustomsInvoice = result.toObject();
+  canadaCustomsInvoice._id = result._id.toString();
 
-  return { props: { canadaCustomsInvoice: invoice } };
+  console.log("CanadaCustomsInvoice: ", canadaCustomsInvoice);
+  return {
+    props: { canadaCustomsInvoice: canadaCustomsInvoice },
+    revalidate: 2,
+  };
 }
