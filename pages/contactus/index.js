@@ -142,7 +142,7 @@ export default function ({ canadaCustomsInvoices, usCustomsInvoices }) {
       </Head>
       <main>
         <h1>Charts</h1>
-        <h2>React-Chartjs-2</h2>
+        <h2>React-Chartjs-2 Library</h2>
         <div className="barchart">
           BarChart
           <Bar options={options} data={data} />
