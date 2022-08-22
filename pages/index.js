@@ -17,7 +17,7 @@ export default function Home() {
       <Head>
         <title>PCB365</title>
         <meta name="description" content="CSS Big Bang" />
-        <link rel="icon" href="/favicon.png" />
+        <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
         <CarouselMain />

@@ -1,0 +1,122 @@
+.container {
+  /* background-color: aliceblue; */
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  transition: 250ms ease-in-out;
+
+
+}
+
+.content {
+  background-color: #002d72;
+  display: flex;
+  height: 40rem;
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;  border-radius: 3px;
+  /* border-right: 1.5rem solid var(--pcb-color-red); */
+  transition: 250ms ease-in-out;
+}
+
+.content h5 {
+  color: #002d72;
+}
+
+.imageSection {
+  /* background-color: yellow; */
+  min-width: 30rem;
+  display: grid;
+  place-items: center;
+  margin: 0rem 0 0 0;
+  padding: 1.3rem;
+  border-radius: 3px 0 0 3px;
+  color:#fff;
+  background-size: contain;
+  background-position: bottom;
+}
+
+.imageSection p {
+  margin-bottom: 3rem;
+}
+
+.loginSection {
+  background-color: #fff;
+  min-width: 28rem;
+  max-width: 28rem;
+  padding: 1.3rem;
+  border-radius: 0 2px 2px 0;
+}
+
+.loginSection_error {
+  height: 2.5rem;
+}
+
+.loginSection_content {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  min-height: 35rem;
+  max-width: 25rem;
+  min-width: 25rem;
+}
+
+.loginSection_logo {
+  display: none;
+  place-items: center;
+  height: 3rem;
+  margin-top: 2rem;
+
+}
+
+.or { 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
+
+.or hr {
+  width: 8rem;
+  height: 0.07rem;
+  margin: 1.1rem 1rem 0.8rem 1rem;
+  color: rgba(94, 94, 94, 0.7);
+}
+
+
+@media (max-width: 1000px) {
+  .imageSection {
+   display: none;
+  }
+
+  .loginSection {
+    border-radius: 5px;
+  }
+
+  .content {
+    border-radius: 7px;
+  }
+
+  .loginSection_logo {
+    margin-top: 0rem;
+    display: grid;
+    place-items: center;
+    height: 3rem;
+    margin-top: 2rem;
+  
+  }
+
+  .loginSection_error {
+    height: 0rem;
+  }
+
+  .loginSection {
+    box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
+  }
+
+  .or hr {
+    width: 8rem;
+    height: 0.1rem;
+    margin: 1.1rem 1rem 0.8rem 1rem;
+    color: rgba(71, 71, 71, 0.8);
+  }
+}
