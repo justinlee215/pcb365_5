@@ -2,9 +2,7 @@
 import { Form, FormLabel } from 'react-bootstrap';
 import { useState, useEffect } from 'react';
 
-export default function Radio({ value, label, name, inline, required, handleChange }) {
-
-    const [choice, setChoice] = useState(null)
+export default function Radio({ checked, value, label, name, inline, required, handleChange }) {
 
   return (
             <Form.Check
@@ -16,6 +14,7 @@ export default function Radio({ value, label, name, inline, required, handleChan
                 type="radio"
                 id={label}
                 required= "required"
+                checked={checked}
             />
         )
   }

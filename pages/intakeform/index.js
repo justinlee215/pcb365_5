@@ -13,6 +13,7 @@ import axios from "axios";
 import Input from "../../components/Input";
 import Radio from "../../components/Radio";
 import Select from "../../components/Select";
+import Checkbox from "../../components/Checkbox";
 
 import Link from "next/link";
 
@@ -21,7 +22,7 @@ export default function Intakeform(props) {
   const [answer, setAnswer] = useState("");
   const [intakeform, setIntakeform] = useState({});
 
-  const questionQuantity = 10;
+  const questionQuantity = 2;
   const [step, setStep] = useState(0);
   const [pageQuantity, setPageQuantity] = useState(questionQuantity);
 
@@ -51,6 +52,8 @@ export default function Intakeform(props) {
   const handleChange = (e) => {
     setAnswer(e.target.value);
     setIntakeform({ ...intakeform, [e.target.name]: e.target.value });
+    console.log('answer: ', answer)
+    console.log('IntakeForm: ', intakeform)
   };
 
   const handleSubmit = async (e) => {
@@ -88,40 +91,116 @@ export default function Intakeform(props) {
     console.log("------ end of update session to mongoDB -------");
   };
 
-  function firstSelection() {
+
+
+
+  const FirstSelection = () => {
+
+  const [checkedState, setCheckedState] = useState(
+    new Array(data.questions[0].choices.length).fill(false)
+  )
+
+    const handleChangeCheckbox = (idx, index) => {
+      console.log('index: ', index)
+
+      let mapped = (checkedState.map((ele, ind) => {
+        if (index == ind) {
+          console.log("같네: ", ind)
+          return !ele
+        }
+        console.log('다르네: ', ind)
+        return ele;
+      }
+      ))
+
+      console.log('mapped state: ', mapped)
+      setCheckedState(mapped)
+      setIntakeform({ ...intakeform, [idx]: mapped })
+
+      console.log('Intakeform: ', intakeform)
+      console.log('CheckedState: ', checkedState)
+    }
     return (
       <>
-        <div className="row g-4">
-          <h5>I want to:</h5>
-          <label>Select all that apply</label>
-          <Form.Group className="mb-3" controlId="formBasicCheckbox">
-            <Form.Check type="checkbox" label="Import Into Canada" />
-          </Form.Group>
-          {/* {answers[idx + 1] == question.choices.length ? (
-            <>
-              <Input
-                placeholder={question.detailText}
-                onChange={handleChange}
-                name={idx + 1 + "b"}
-                value={answers[idx + 1 + "b"]}
-              />
-            </>
-          ) : null} */}
-          <Form.Group className="mb-3" controlId="formBasicCheckbox2">
-            <Form.Check type="checkbox" label="Import Into the US" />
-          </Form.Group>
-          <Form.Group className="mb-3" controlId="formBasicCheckbox3">
-            <Form.Check type="checkbox" label="Ship freight" />
-          </Form.Group>
-          <Form.Group className="mb-3" controlId="formBasicCheckbox4">
-            <Form.Check type="checkbox" label="Speak With a Trade Advisor" />
-          </Form.Group>
-          <Form.Group className="mb-3" controlId="formBasicCheckbox5">
-            <Form.Check type="checkbox" label="Other (text box opens)" />
-          </Form.Group>
+        <h3>Select all that apply</h3>
+        <div className="">
+          {data.questions[0].choices.map((choice, i) => (
+            <Checkbox key={i + choice} checked={intakeform[1]?.[i]} name={data.questions[0].id} label={choice} value={i + 1} handleChangeCheckbox={() => handleChangeCheckbox(data.questions[0].id, i)}/>
+          )) }
         </div>
-        <Buttons />
       </>
+    );
+  }
+
+  const SecondSelection = () => {
+
+  const [checkedState, setCheckedState] = useState(
+    new Array(data.questions[8].choices.length).fill(false)
+  )
+
+    console.log('ChekedState: ', checkedState)
+
+    const handleChangeCheckbox = (idx, index) => {
+    console.log('index: ', index)
+
+    let mapped = (checkedState.map((ele, ind) => {
+      if (index == ind) {
+        return !ele
+      }
+      return ele;
+    }
+    ))
+
+    console.log('mapped state: ', mapped)
+    setCheckedState(mapped)
+    setIntakeform({ ...intakeform, [idx]: mapped })
+
+    console.log('Intakeform: ', intakeform)
+    console.log('CheckedState: ', checkedState)
+  }
+    
+    return (
+        <div className="">
+          {data.questions.slice(1, 3).map((question, idx) => (
+            <div key={question + idx}>
+            <h3>{question.question}</h3>
+              {question.choices.map((choice, i) => (
+                <div key={choice + i}>
+                  <Radio value={i + 1} checked={i + 1 == intakeform[question.id]} label={choice} name={question.id} handleChange={handleChange}/>
+                </div>
+              ))}
+            </div>
+          ))}
+        {data.questions.slice(4, 8).map((question, idx) => (
+          <div key={question + idx}>
+            <h3>{question.question}</h3>
+            {question.type == "radioButton" ?
+            question.choices.map((choice, i) => (
+              
+              (
+                <div key={choice + i}>
+                    <Radio value={i + 1} checked={i + 1 == intakeform[question.id]} label={choice} name={question.id} handleChange={handleChange} />
+                  </div>
+
+              )
+
+              ))
+              :
+              question.type == "select" ?
+              (<Select choices={question.choices} question={question.question} name={question.id}/>)
+              :
+                question.type == "date" ?
+                  (<Input type={"date"}/>)
+                  :
+                  null
+            }
+          </div>
+        ))}
+        <h3>{data.questions[8].question}</h3>
+        {data.questions[8].choices.map((choice, i) => (
+            <Checkbox key={i + choice} checked={intakeform[9]?.[i]} name={data.questions[8].id} label={choice} value={i + 1} handleChangeCheckbox={() => handleChangeCheckbox(data.questions[8].id, i)}/>
+          )) }
+        </div>
     );
   }
 
@@ -140,7 +219,7 @@ export default function Intakeform(props) {
       {step === pageQuantity - 1 && (
         <Button
           onClick={handleSubmit}
-          disabled={answers[step + 1] ? false : true}
+          disabled={intakeform[step + 1] ? false : true}
         >
           SUBMIT
         </Button>
@@ -152,13 +231,15 @@ export default function Intakeform(props) {
           onClick={() => {
             setStep(step + 1);
           }}
-          disabled={intakeform[step + 1] ? false : true}
+          disabled={intakeform[step + 1]?.some(ele => ele === true) ? false : true}
         >
           NEXT
         </Button>
       )}
     </section>
   );
+
+  const wizards = [<FirstSelection />, <SecondSelection />];
 
   return (
     <div className={intakeform.container}>
@@ -186,15 +267,16 @@ export default function Intakeform(props) {
             <p>24/7 Your Trade Process Under Control</p>
           </div>
           <div className={intakeform.loginSection}>
+            <h1>Get a Quote</h1>
             <ProgressBar
-              now={15}
-              label={`15 of 100`}
+              now={20}
+              label={`20 of 100`}
               style={{ transition: "width 1s ease" }}
             />
-            {firstSelection()}
+            {wizards[step]}
+            <Buttons />
           </div>
         </div>
-        <Buttons />
       </div>
     </div>
   );
