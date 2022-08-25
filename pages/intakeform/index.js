@@ -105,10 +105,8 @@ export default function Intakeform(props) {
 
       let mapped = checkedState1.map((ele, ind) => {
         if (i == ind) {
-          console.log("같네: ", ind);
           return !ele;
         }
-        console.log("다르네: ", ind);
         return ele;
       });
 
@@ -141,6 +139,8 @@ export default function Intakeform(props) {
   };
 
   const SecondSelection = () => {
+    const [neitherOption, setNeitherOption] = useState("");
+
     console.log("ChekedState: ", checkedState9);
 
     const handleChangeCheckbox = (idx, index) => {
@@ -159,6 +159,13 @@ export default function Intakeform(props) {
 
       console.log("Intakeform: ", intakeform);
       console.log("CheckedState: ", checkedState9);
+    };
+
+    const handleChangeOption = (e) => {
+      setNeitherOption(e.target.value);
+      setIntakeform({ ...intakeform, [e.target.name]: e.target.value });
+      console.log("neitherOption: ", neitherOption);
+      console.log("IntakeForm: ", intakeform);
     };
 
     return (
@@ -205,6 +212,7 @@ export default function Intakeform(props) {
             ) : null}
           </div>
         ))}
+
         <h3>{data.questions[8].question}</h3>
         {data.questions[8].choices.map((choice, i) => (
           <Checkbox
@@ -218,6 +226,14 @@ export default function Intakeform(props) {
             }
           />
         ))}
+
+        <h3>{data.questions[9].question}</h3>
+        <Input
+          type="text"
+          name={data.questions[9].id}
+          onChange={handleChangeOption}
+          value={neitherOption}
+        />
       </div>
     );
   };
