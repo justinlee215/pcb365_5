@@ -22,7 +22,7 @@ export default function Intakeform(props) {
   const [answer, setAnswer] = useState("");
   const [intakeform, setIntakeform] = useState({});
 
-  const questionQuantity = 2;
+  const questionQuantity = 5;
   const [step, setStep] = useState(0);
   const [pageQuantity, setPageQuantity] = useState(questionQuantity);
 
@@ -184,70 +184,199 @@ export default function Intakeform(props) {
                 </div>
               ))}
             </div>
-          ))
-        }
-        
-        { checkedState1[2] && data.questions.slice(4, 8).map((question, idx) => (
-          <div key={question + idx}>
-            <h3>{question.question}</h3>
-            {question.type == "radioButton" ? (
-              question.choices.map((choice, i) => (
-                <div key={choice + i}>
-                  <Radio
-                    value={i + 1}
-                    checked={i + 1 == intakeform[question.id]}
-                    label={choice}
-                    name={question.id}
-                    handleChange={handleChange}
-                  />
-                </div>
-              ))
-            ) : question.type == "select" ? (
+          ))}
 
-              <Select
-                choices={question.choices}
-                question={question.question}
-                name={question.id}
-                value={intakeform[question.id]}
-                handleChange={handleChange} 
+        {checkedState1[2] &&
+          data.questions.slice(4, 8).map((question, idx) => (
+            <div key={question + idx}>
+              <h3>{question.question}</h3>
+              {question.type == "radioButton" ? (
+                question.choices.map((choice, i) => (
+                  <div key={choice + i}>
+                    <Radio
+                      value={i + 1}
+                      checked={i + 1 == intakeform[question.id]}
+                      label={choice}
+                      name={question.id}
+                      handleChange={handleChange}
+                    />
+                  </div>
+                ))
+              ) : question.type == "select" ? (
+                <Select
+                  choices={question.choices}
+                  question={question.question}
+                  name={question.id}
+                  value={intakeform[question.id]}
+                  handleChange={handleChange}
+                />
+              ) : question.type == "date" ? (
+                <Input
+                  type={"date"}
+                  value={intakeform[question.id]}
+                  name={question.id}
+                  handleChange={handleChange}
+                />
+              ) : null}
+            </div>
+          ))}
+
+        {checkedState1[3] && (
+          <>
+            <h3>{data.questions[8].question}</h3>
+            {data.questions[8].choices.map((choice, i) => (
+              <Checkbox
+                key={i + choice}
+                checked={intakeform[9]?.[i]}
+                name={data.questions[8].id}
+                label={choice}
+                value={i + 1}
+                handleChangeCheckbox={() =>
+                  handleChangeCheckbox(data.questions[8].id, i)
+                }
               />
-            ) : question.type == "date" ? (
-              <Input type={"date"} value={intakeform[question.id]} name={question.id} handleChange={handleChange}/>
-            ) : null}
-          </div>))
-        }
+            ))}
+          </>
+        )}
 
-        { checkedState1[3] && 
-        <>
-        <h3>{data.questions[8].question}</h3>
-        {data.questions[8].choices.map((choice, i) => (
-          <Checkbox
-            key={i + choice}
-            checked={intakeform[9]?.[i]}
-            name={data.questions[8].id}
+        {checkedState1[4] && (
+          <div>
+            <h3>{data.questions[9].question}</h3>
+            <Input
+              type="text"
+              name={data.questions[9].id}
+              handleChange={handleChange}
+              value={intakeform[10]}
+              label={data.questions[9].question.label}
+            />
+          </div>
+        )}
+      </div>
+    );
+  };
+
+  const DogCat = () => {
+    const dataDog = data.questions[3];
+    return (
+      <>
+        <h3>Dog/Cat</h3>
+        <div className="">{dataDog.question}</div>
+        {dataDog.choices.map((choice, i) => (
+          <Radio
             label={choice}
+            name={dataDog.id}
             value={i + 1}
-            handleChangeCheckbox={() =>
-              handleChangeCheckbox(data.questions[8].id, i)
-            }
+            checked={intakeform[4] == i + 1}
+            handleChange={(e) => {
+              setIntakeform({ ...intakeform, [e.target.name]: e.target.value });
+              console.log("intakeform: ", intakeform);
+            }}
           />
         ))}
-        </>
-        }
+      </>
+    );
+  };
 
-        { checkedState1[4] && 
-        <div>
-          <h3>{data.questions[9].question}</h3>
-          <Input
-            type="text"
-            name={data.questions[9].id}
-            handleChange={handleChange}
-            value={intakeform[10]}
-              label={data.questions[9].question.label}
+  const Horse = () => {
+    const dataHorse = data.questions[3];
+    return (
+      <>
+        <h3>Horse</h3>
+        <div className="">{dataDog.question}</div>
+        {dataHorse.choices.map((choice, i) => (
+          <Radio
+            label={choice}
+            name={dataHorse.id}
+            value={i + 1}
+            checked={intakeform[4] == i + 1}
+            handleChange={(e) => {
+              setIntakeform({ ...intakeform, [e.target.name]: e.target.value });
+              console.log("intakeform: ", intakeform);
+            }}
           />
-        </div>
-        }
-      </div>
+        ))}
+      </>
+    );
+  };
+
+  const Personal = () => {
+    const dataPersonal = data.questions[3];
+    return (
+      <>
+        <h3>Personal</h3>
+        <div className="">{dataPersonal.question}</div>
+        {dataPersonal.choices.map((choice, i) => (
+          <Radio
+            label={choice}
+            name={dataPersonal.id}
+            value={i + 1}
+            checked={intakeform[4] == i + 1}
+            handleChange={(e) => {
+              setIntakeform({ ...intakeform, [e.target.name]: e.target.value });
+              console.log("intakeform: ", intakeform);
+            }}
+          />
+        ))}
+      </>
+    );
+  };
+
+  const Commercial = () => {
+    const dataCommercial = data.questions[28];
+    return (
+      <>
+        <h3>Commercial</h3>
+
+        {dataCommercial.choices.map((choice, i) => (
+          <Radio
+            label={choice}
+            name={dataCommercial.id}
+            value={i + 1}
+            checked={intakeform[2000] == i + 1}
+            handleChange={(e) => {
+              // setCommercial(e.target.value);
+              setIntakeform({ ...intakeform, [e.target.name]: e.target.value });
+              console.log("intakeform: ", intakeform);
+            }}
+          />
+        ))}
+      </>
+    );
+  };
+
+  const QuoteContact = () => {
+    const formData = data.questions[10];
+    return (
+      <>
+        <h3>Quote</h3>
+        {formData.form.map((question, i) => (
+          <Input type={question.type} label={question.label} as={question.as} />
+        ))}
+
+        <h4>Subscribe To PCB Emails</h4>
+        <p>
+          PCB Customs Brokers would like to send you regulatory updates, trade
+          news and event notifications relevant to your business. Your privacy
+          is important to us therefore your email will never be shared. You may
+          unsubscribe at any time. For more information please visit our privacy
+          policy. By providing your email you grant us consent to send you
+          emails for a period of 6 months, beginning from your last business
+          exchange with us under Implied consent, after which you will be
+          removed from our mailing list.
+        </p>
+        <Checkbox label={data.questions[11].label} />
+      </>
+    );
+  };
+
+  const ThirdSelection = () => {
+    return (
+      <>
+        <h3>Third Selection</h3>
+        {intakeform[3] === "1" && <Personal />}
+        {intakeform[3] === "2" && <Commercial />}
+        {intakeform[1][2] === true && <QuoteContact />}
+      </>
     );
   };
 
@@ -278,9 +407,7 @@ export default function Intakeform(props) {
           onClick={() => {
             setStep(step + 1);
           }}
-          disabled={
-            intakeform[step + 1]?.some((ele) => ele === true) ? false : true
-          }
+          disabled={step >= pageQuantity}
         >
           NEXT
         </Button>
@@ -288,7 +415,7 @@ export default function Intakeform(props) {
     </section>
   );
 
-  const wizards = [<FirstSelection />, <SecondSelection />];
+  const wizards = [<FirstSelection />, <SecondSelection />, <ThirdSelection />];
 
   return (
     <div className={intakeform.container}>

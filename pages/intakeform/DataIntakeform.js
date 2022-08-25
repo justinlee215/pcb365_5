@@ -1,4 +1,3 @@
-
 const provinceStateList = [
   "Alberta",
   "British Columbia",
@@ -372,21 +371,19 @@ const data = {
       id: "5",
       question: "The Mode of transportation I plan to use is:",
       type: "radioButton",
-      choices: [
-        "Air", "Ocean", "Gound", "Courier"
-      ],
+      choices: ["Air", "Ocean", "Gound", "Courier"],
     },
     {
       id: "6",
       question: "Point A for my goods is:",
       type: "select",
-      choices: countryList
+      choices: countryList,
     },
     {
       id: "7",
       question: "Point B for my goods is:",
       type: "select",
-      choices: countryList
+      choices: countryList,
     },
     {
       id: "8",
@@ -404,13 +401,54 @@ const data = {
         "Reviewing my Free Trade Agreements in use or new ones available to me",
         "Applying for a binding ruling or advance ruling with customs",
         "Conducting a sample audit",
-        "Other"
-      ]
+        "Other",
+      ],
     },
     {
       id: "10",
       question: "Neither option applies to me, I want to:",
       type: "text",
+    },
+    {
+      id: "11",
+      question: "Get a Quote",
+      form: [
+        {
+          id: "12",
+          label: "First Name *",
+          type: "text",
+        },
+        {
+          id: "13",
+          label: "Last Name *",
+          type: "text",
+        },
+        {
+          id: "14",
+          label: "Company(if applicable)",
+          type: "text",
+        },
+        {
+          id: "15",
+          label: "Phone *",
+          type: "text",
+        },
+        {
+          id: "16",
+          label: "Email Address *",
+          type: "text",
+        },
+        {
+          id: "17",
+          label: "Please provide any additional details that may help:",
+          as: "textarea",
+        },
+      ],
+    },
+    {
+      id: "18",
+      label: "Yes, sign me up.",
+      type: "checkbox",
     },
     {
       id: "50",
@@ -939,7 +977,7 @@ const data = {
       id: "2048",
       label: "Country",
       type: "select",
-      choices: countryList
+      choices: countryList,
     },
     {
       id: "2049",
