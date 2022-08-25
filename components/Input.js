@@ -8,9 +8,9 @@ export default function Input ({ label, name, required, type, placeholder, value
         <Form.Control
             type={type}
             placeholder={placeholder}
-            id={name}
+            // id={name}
             value={value}
-            required={required}
+            // required={required}
             onChange={handleChange}
             name={name}
         />

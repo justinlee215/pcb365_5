@@ -141,7 +141,7 @@ export default function Intakeform(props) {
   const SecondSelection = () => {
     const [neitherOption, setNeitherOption] = useState("");
 
-    console.log("ChekedState: ", checkedState9);
+    console.log("ChekedState: ", checkedState1);
 
     const handleChangeCheckbox = (idx, index) => {
       console.log("index: ", index);
@@ -162,31 +162,32 @@ export default function Intakeform(props) {
     };
 
     const handleChangeOption = (e) => {
-      setNeitherOption(e.target.value);
+      // setNeitherOption(e.target.value);
       setIntakeform({ ...intakeform, [e.target.name]: e.target.value });
-      // console.log("neitherOption: ", neitherOption);
-      // console.log("IntakeForm: ", intakeform);
     };
 
     return (
       <div className="">
-        {data.questions.slice(1, 3).map((question, idx) => (
-          <div key={question + idx}>
-            <h3>{question.question}</h3>
-            {question.choices.map((choice, i) => (
-              <div key={choice + i}>
-                <Radio
-                  value={i + 1}
-                  checked={i + 1 == intakeform[question.id]}
-                  label={choice}
-                  name={question.id}
-                  handleChange={handleChange}
-                />
-              </div>
-            ))}
-          </div>
-        ))}
-        {data.questions.slice(4, 8).map((question, idx) => (
+        {(checkedState1[0] || checkedState1[1]) &&
+          data.questions.slice(1, 3).map((question, idx) => (
+            <div key={question + idx}>
+              <h3>{question.question}</h3>
+              {question.choices.map((choice, i) => (
+                <div key={choice + i}>
+                  <Radio
+                    value={i + 1}
+                    checked={i + 1 == intakeform[question.id]}
+                    label={choice}
+                    name={question.id}
+                    handleChange={handleChange}
+                  />
+                </div>
+              ))}
+            </div>
+          ))
+        }
+        
+        { checkedState1[2] && data.questions.slice(4, 8).map((question, idx) => (
           <div key={question + idx}>
             <h3>{question.question}</h3>
             {question.type == "radioButton" ? (
@@ -213,9 +214,11 @@ export default function Intakeform(props) {
             ) : question.type == "date" ? (
               <Input type={"date"} value={intakeform[question.id]} name={question.id} handleChange={handleChange}/>
             ) : null}
-          </div>
-        ))}
+          </div>))
+        }
 
+        { checkedState1[3] && 
+        <>
         <h3>{data.questions[8].question}</h3>
         {data.questions[8].choices.map((choice, i) => (
           <Checkbox
@@ -229,15 +232,21 @@ export default function Intakeform(props) {
             }
           />
         ))}
+        </>
+        }
 
-        <h3>{data.questions[9].question}</h3>
-        <Input
-          type="text"
-          name={data.questions[9].id}
-          handleChange={handleChangeOption}
-          value={intakeform[10]}
-        />
-
+        { checkedState1[4] && 
+        <div>
+          <h3>{data.questions[9].question}</h3>
+          <Input
+            type="text"
+            name={data.questions[9].id}
+            handleChange={handleChange}
+            value={intakeform[10]}
+              label={data.questions[9].question.label}
+          />
+        </div>
+        }
       </div>
     );
   };
