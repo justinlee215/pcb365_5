@@ -45,17 +45,17 @@ export default function Intakeform(props) {
     console.log("intakeform: ", intakeform);
   }, [intakeform]);
 
-  useEffect(function mount() {
-    function onScroll() {
-      console.log("scroll!");
-    }
+  // useEffect(function mount() {
+  //   function onScroll() {
+  //     console.log("scroll!");
+  //   }
 
-    window.addEventListener("scroll", onScroll);
+  //   window.addEventListener("scroll", onScroll);
 
-    return function unMount() {
-      window.removeEventListener("scroll", onScroll);
-    };
-  });
+  //   return function unMount() {
+  //     window.removeEventListener("scroll", onScroll);
+  //   };
+  // });
 
   const handleChange = (e) => {
     setAnswer(e.target.value);
@@ -164,8 +164,8 @@ export default function Intakeform(props) {
     const handleChangeOption = (e) => {
       setNeitherOption(e.target.value);
       setIntakeform({ ...intakeform, [e.target.name]: e.target.value });
-      console.log("neitherOption: ", neitherOption);
-      console.log("IntakeForm: ", intakeform);
+      // console.log("neitherOption: ", neitherOption);
+      // console.log("IntakeForm: ", intakeform);
     };
 
     return (
@@ -202,13 +202,16 @@ export default function Intakeform(props) {
                 </div>
               ))
             ) : question.type == "select" ? (
+
               <Select
                 choices={question.choices}
                 question={question.question}
                 name={question.id}
+                value={intakeform[question.id]}
+                handleChange={handleChange} 
               />
             ) : question.type == "date" ? (
-              <Input type={"date"} />
+              <Input type={"date"} value={intakeform[question.id]} name={question.id} handleChange={handleChange}/>
             ) : null}
           </div>
         ))}
@@ -231,9 +234,10 @@ export default function Intakeform(props) {
         <Input
           type="text"
           name={data.questions[9].id}
-          onChange={handleChangeOption}
-          value={neitherOption}
+          handleChange={handleChangeOption}
+          value={intakeform[10]}
         />
+
       </div>
     );
   };

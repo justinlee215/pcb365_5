@@ -1,7 +1,7 @@
 
 import { Form } from "react-bootstrap";
 
-export default function Input ({ label, name, required, type, placeholder, value }) {
+export default function Input ({ label, name, required, type, placeholder, value, handleChange}) {
     return (
     <Form.Group className="mb-3">
         <Form.Label>{label}</Form.Label>
@@ -11,6 +11,8 @@ export default function Input ({ label, name, required, type, placeholder, value
             id={name}
             value={value}
             required={required}
+            onChange={handleChange}
+            name={name}
         />
     </Form.Group>
     )
