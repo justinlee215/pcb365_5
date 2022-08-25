@@ -256,23 +256,14 @@ export default function Intakeform(props) {
   };
 
   const DogCat = () => {
-    const dataDog = data.questions[3];
+    const [page, setPage] = useState(0);
+    const dataDog = data.questions.slice(12, 22);
+    // wizards = [...wizards, ...dataDog];
     return (
       <>
         <h3>Dog/Cat</h3>
-        <div className="">{dataDog.question}</div>
-        {dataDog.choices.map((choice, i) => (
-          <Radio
-            label={choice}
-            name={dataDog.id}
-            value={i + 1}
-            checked={intakeform[4] == i + 1}
-            handleChange={(e) => {
-              setIntakeform({ ...intakeform, [e.target.name]: e.target.value });
-              console.log("intakeform: ", intakeform);
-            }}
-          />
-        ))}
+        {dataDog.map((ele, i) => <div>page: {i + 1}</div>)[page]}
+        <div className=""></div>
       </>
     );
   };
@@ -380,6 +371,15 @@ export default function Intakeform(props) {
     );
   };
 
+  const FourthSelection = () => {
+    return (
+      <>
+        <h3>Fourth Selection</h3>
+        {intakeform[4] === "1" && <DogCat />}
+      </>
+    );
+  };
+
   const Buttons = () => (
     <section className="buttonsPreGame">
       {step > 0 && (
@@ -415,7 +415,12 @@ export default function Intakeform(props) {
     </section>
   );
 
-  const wizards = [<FirstSelection />, <SecondSelection />, <ThirdSelection />];
+  const wizards = [
+    <FirstSelection />,
+    <SecondSelection />,
+    <ThirdSelection />,
+    <FourthSelection />,
+  ];
 
   return (
     <div className={intakeform.container}>
