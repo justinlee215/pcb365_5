@@ -22,7 +22,7 @@ export default function Intakeform(props) {
   const [answer, setAnswer] = useState("");
   const [intakeform, setIntakeform] = useState({});
 
-  const questionQuantity = 5;
+  const questionQuantity = 50;
   const [step, setStep] = useState(0);
   const [pageQuantity, setPageQuantity] = useState(questionQuantity);
 
@@ -123,7 +123,7 @@ export default function Intakeform(props) {
         <div className="">
           {data.questions[0].choices.map((choice, i) => (
             <Checkbox
-              key={i + choice}
+              key={i + data.questions[0].question}
               checked={intakeform[1]?.[i]}
               name={data.questions[0].id}
               label={choice}
@@ -170,18 +170,17 @@ export default function Intakeform(props) {
       <div className="">
         {(checkedState1[0] || checkedState1[1]) &&
           data.questions.slice(1, 3).map((question, idx) => (
-            <div key={question + idx}>
+            <div key={data.questions[1].question + idx}>
               <h3>{question.question}</h3>
               {question.choices.map((choice, i) => (
-                <div key={choice + i}>
-                  <Radio
-                    value={i + 1}
-                    checked={i + 1 == intakeform[question.id]}
-                    label={choice}
-                    name={question.id}
-                    handleChange={handleChange}
-                  />
-                </div>
+                <Radio
+                  key={choice + i}
+                  value={i + 1}
+                  checked={i + 1 == intakeform[question.id]}
+                  label={choice}
+                  name={question.id}
+                  handleChange={handleChange}
+                />
               ))}
             </div>
           ))}
@@ -192,7 +191,7 @@ export default function Intakeform(props) {
               <h3>{question.question}</h3>
               {question.type == "radioButton" ? (
                 question.choices.map((choice, i) => (
-                  <div key={choice + i}>
+                  <div key={data.questions[2].question + i}>
                     <Radio
                       value={i + 1}
                       checked={i + 1 == intakeform[question.id]}
@@ -255,41 +254,55 @@ export default function Intakeform(props) {
     );
   };
 
-  const DogCat = () => {
-    const [page, setPage] = useState(0);
-    const dataDog = data.questions.slice(12, 22);
-    // wizards = [...wizards, ...dataDog];
-    return (
-      <>
-        <h3>Dog/Cat</h3>
-        {dataDog.map((ele, i) => <div>page: {i + 1}</div>)[page]}
-        <div className=""></div>
-      </>
-    );
-  };
+  const dataDog = data.questions.slice(12, 22);
+  const dataHorses = data.questions.slice(22, 26);
 
-  const Horse = () => {
-    const dataHorse = data.questions[3];
-    return (
-      <>
-        <h3>Horse</h3>
-        <div className="">{dataDog.question}</div>
-        {dataHorse.choices.map((choice, i) => (
-          <Radio
-            label={choice}
-            name={dataHorse.id}
-            value={i + 1}
-            checked={intakeform[4] == i + 1}
-            handleChange={(e) => {
-              setIntakeform({ ...intakeform, [e.target.name]: e.target.value });
-              console.log("intakeform: ", intakeform);
-            }}
-          />
+  const DogCat = dataDog.map((ele, i) => (
+    <div key={ele + i}>
+      <h3>{ele.title}</h3>
+      <h5>{ele.subtext}</h5>
+      <h5>{ele.subtext1}</h5>
+      <h5>{ele.subtext2}</h5>
+      <h5>{ele.subtext3}</h5>
+      <h4>{ele.contentTitle}</h4>
+      <h4>{ele.contentTitle2}</h4>
+      <h4>{ele.contentTitle3}</h4>
+
+      <div>
+        <h5>{ele.question}</h5>
+        {ele.choices?.map((choice, idx) => (
+          <Radio label={choice} key={choice + idx} />
         ))}
-      </>
-    );
-  };
+        {/* {ele.type == "button" && <button>{ele.buttonText}</button>} */}
+      </div>
+    </div>
+  ));
 
+  const Horses = dataHorses.map((ele, i) => (
+    <div key={ele + i}>
+      <h3>{ele.title}</h3>
+      <h5>{ele.subtext}</h5>
+      <h5>{ele.subtext1}</h5>
+      <h5>{ele.subtext2}</h5>
+      <h5>{ele.subtext3}</h5>
+      <h4>{ele.contentTitle}</h4>
+      <h4>{ele.contentTitle2}</h4>
+      <h4>{ele.contentTitle3}</h4>
+
+      <div>
+        <h5>{ele.question}</h5>
+        (ele.type == "radio" || ele.type == "radioButton") &&
+        {ele.choices?.map((choice, idx) => {
+          <div key={choice + idx}>
+            <Radio label={choice} />
+          </div>;
+        })}
+        ele.type == "text" && (
+        <Input label={ele.label} />)
+        {/* {ele.type == "button" && <button>{ele.buttonText}</button>} */}
+      </div>
+    </div>
+  ));
   const Personal = () => {
     const dataPersonal = data.questions[3];
     return (
@@ -298,6 +311,7 @@ export default function Intakeform(props) {
         <div className="">{dataPersonal.question}</div>
         {dataPersonal.choices.map((choice, i) => (
           <Radio
+            key={choice + i}
             label={choice}
             name={dataPersonal.id}
             value={i + 1}
@@ -320,6 +334,7 @@ export default function Intakeform(props) {
 
         {dataCommercial.choices.map((choice, i) => (
           <Radio
+            key={choice + i}
             label={choice}
             name={dataCommercial.id}
             value={i + 1}
@@ -341,7 +356,12 @@ export default function Intakeform(props) {
       <>
         <h3>Quote</h3>
         {formData.form.map((question, i) => (
-          <Input type={question.type} label={question.label} as={question.as} />
+          <Input
+            key={data.questions[10].title + i}
+            type={question.type}
+            label={question.label}
+            as={question.as}
+          />
         ))}
 
         <h4>Subscribe To PCB Emails</h4>
@@ -375,7 +395,6 @@ export default function Intakeform(props) {
     return (
       <>
         <h3>Fourth Selection</h3>
-        {intakeform[4] === "1" && <DogCat />}
       </>
     );
   };
@@ -420,7 +439,11 @@ export default function Intakeform(props) {
     <SecondSelection />,
     <ThirdSelection />,
     <FourthSelection />,
+    ...DogCat,
+    ...Horses,
   ];
+
+  useEffect(() => console.log("wizards: ", wizards), [wizards]);
 
   return (
     <div className={intakeform.container}>

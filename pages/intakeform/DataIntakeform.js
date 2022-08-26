@@ -684,6 +684,7 @@ const data = {
     {
       id: "100",
       question: "Reason for horse import:",
+      type: "radio",
       choices: [
         "Show",
         "Race",
@@ -696,6 +697,7 @@ const data = {
     {
       id: "101",
       question: "Is there any chance the horse will remain in Canada?",
+      type: "radio",
       choices: ["Yes", "No"],
     },
     {
