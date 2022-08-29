@@ -18,7 +18,7 @@ import Checkbox from "../../components/Checkbox";
 import Link from "next/link";
 
 export default function Intakeform(props) {
-  console.log("data", data);
+  // console.log("data", data);
   const [answer, setAnswer] = useState("");
   const [intakeform, setIntakeform] = useState({});
 
@@ -261,33 +261,148 @@ export default function Intakeform(props) {
     );
   };
 
-  const dataDog = data.questions.slice(12, 22);
-  const dataHorses = data.questions.slice(22, 25);
-  const dataCars = data.questions.slice(25, 28);
-  const dataCommercials = data.questions.slice(31, 50);
+  const dataDog = data.questions.slice(12, 21);
+  const dataHorses = data.questions.slice(21, 24);
+  const dataCars = data.questions.slice(24, 27);
+  const dataCommercials = data.questions.slice(30, 49);
 
   const DogCat = dataDog.map((ele, i) => (
     <div key={ele + i}>
-      <h3>{ele.title}</h3>
-      <h5>{ele.subtext}</h5>
-      <h5>{ele.subtext1}</h5>
-      <h5>{ele.subtext2}</h5>
-      <h5>{ele.subtext3}</h5>
-      <h4>{ele.contentTitle}</h4>
-      <h4>{ele.contentTitle2}</h4>
-      <h4>{ele.contentTitle3}</h4>
+          {(ele.id == 52) ?
+              <div>
+                { intakeform[51] == '1' 
+                  ?
+                  <>
+              <h3>{ele.title}</h3>
+                    <h5>{ele.subtext}</h5>
+                    <p>{ele.content}</p>
+                    <p>{ele.paragraph}</p>
+                    <p>{ele.paragraphSecond}</p>
 
-      <div>
-        <h5>{ele.question}</h5>
-        {ele.choices?.map((choice, idx) => (
-          <Radio label={choice} key={choice + idx} value={idx + 1} name={ele.id} checked={intakeform[ele.id] == idx + 1}
-            handleChange={(e) => {
-              setIntakeform({ ...intakeform, [e.target.name]: e.target.value });
-              console.log("intakeform: ", intakeform);
-            }} />
-        ))}
-        {/* {ele.type == "button" && <button>{ele.buttonText}</button>} */}
-      </div>
+                  </>
+                  :
+                  <>
+              <h3>{ele.titleb}</h3>
+                    <h5>{ele.subtextb}</h5>
+                    <p>{ele.contentb}</p>
+              <p>{ele.paragraphb}</p>
+                    <p>{ele.paragraphSecondb}</p>
+       
+                  </>
+                }
+              </div>
+            :
+        (ele.id == 56) ?
+          <div>
+            <h3>{ele.title}</h3>
+            {intakeform[55] == '1'
+              ?
+              <>
+                <h5>{ele.subtext}</h5>
+                <p>{ele.content}</p>
+                <p>{ele.paragraph}</p>
+                <p>{ele.paragraphSecond}</p>
+                <h5>{ele.contentTitle}</h5>
+                <h6>{ele.contentTitleSub}</h6>
+                <h5>{ele.contentTitle2}</h5>
+
+                <h5>{ele.contentTitle3}</h5>
+                <h6>{ele.contentBold1}</h6>
+                <p>{ele.content1}</p>
+
+
+              </>
+              :
+              intakeform[55] == '2'
+                ?
+              <>
+                <h5>{ele.subtext1}</h5>
+                <p>{ele.contentb}</p>
+                <p>{ele.paragraphb}</p>
+                <p>{ele.paragraphSecondb}</p>
+                <h5>{ele.contentTitle}</h5>
+                <h6>{ele.contentTitleSub}</h6>
+                  <h5>{ele.contentTitle2}</h5>
+
+                  <h5>{ele.contentTitle3}</h5>
+                     <p>{ele.content2}</p>
+
+              </>
+              : 
+              intakeform[55] == '3'
+                ?
+              <>
+                <h5>{ele.subtext2}</h5>
+                <p>{ele.contentb}</p>
+                <p>{ele.paragraphb}</p>
+                <p>{ele.paragraphSecondb}</p>
+                       <h5>{ele.contentTitle}</h5>
+                <h6>{ele.contentTitleSub}</h6>
+                     <p>{ele.content3}</p>
+
+              </>
+              :
+              intakeform[55] == '4'
+                ?
+              <>
+                <h5>{ele.subtext3}</h5>
+                <p>{ele.contentb}</p>
+                <p>{ele.paragraphb}</p>
+                <p>{ele.paragraphSecondb}</p>
+                       <h5>{ele.contentTitle}</h5>
+                <h6>{ele.contentTitleSub}</h6>
+                     <p>{ele.content4}</p>
+
+              </>
+              : 
+              intakeform[55] == '5'
+                ?
+                <>
+                  <h5>{ele.subtext4}</h5>
+                  <p>{ele.contentb}</p>
+                  <p>{ele.paragraphb}</p>
+                  <p>{ele.paragraphSecondb}</p>
+                        <h5>{ele.contentTitle}</h5>
+                        <h6>{ele.contentTitleSub}</h6>
+                             <p>{ele.content5}</p>
+
+                </>
+                :   
+              null
+            }
+          </div>
+          :
+            (
+              <>
+              <h3>{ele.title}</h3>
+              <h5>{ele.subtext}</h5>
+              <h5>{ele.subtext1}</h5>
+              <h5>{ele.subtext2}</h5>
+              <h5>{ele.subtext3}</h5>
+              <h4>{ele.contentTitle}</h4>
+              <h4>{ele.contentTitle2}</h4>
+              <h4>{ele.contentTitle3}</h4>
+              <p>{ele.content}</p>
+              <p>{ele.content1}</p>
+              <p>{ele.content2}</p>
+
+              <div>
+                <h5>{ele.question}</h5>
+                {ele.choices?.map((choice, idx) => (
+                  <div key={choice + idx} style={{ margin: "1rem 0"}}>
+                    <Radio label={choice} value={idx + 1} name={ele.id} checked={intakeform[ele.id] == idx + 1}
+                      handleChange={(e) => {
+                        setIntakeform({ ...intakeform, [e.target.name]: e.target.value });
+                        console.log("intakeform: ", intakeform);
+                      }} />
+                  </div>
+                ))}
+                {/* {ele.type == "button" && <button>{ele.buttonText}</button>} */}
+              </div>
+              </>
+            )
+          }
+
     </div>
   ));
 
@@ -482,6 +597,7 @@ export default function Intakeform(props) {
         <Button style={{ visibility: step == 0 ? `hidden` : `visible`}}
           type="button"
           onClick={() => {
+            if (!progress == 0 || !progress == 100) {
             if (step == 19) {
               setStep(step - 17)
               setProgress(prev => prev - 5)
@@ -499,6 +615,7 @@ export default function Intakeform(props) {
               setProgress(prev => prev - 5)
               console.log('step: ', step)
             }
+          }
           }}
         >
           BACK
@@ -514,21 +631,35 @@ export default function Intakeform(props) {
 
       {step < pageQuantity - 1 && (
         <Button
+          style={{ height : step == 5 || step == 7 ? `5rem` : 'default', width: step == 5 || step == 7 ? `14rem`: `default`}}
           type="button"
           onClick={() => {
+            // console.log('progress: ', progress)
             if (step == 2 && intakeform[2000] && !intakeform[2001]) {
               setStep(step + 17)
-              setProgress(prev => prev + 5)
-              console.log('commercial go')
-              console.log('step: ', step)
-            } else {
-              setStep(step + 1);
-              setProgress(prev => prev + 5)
-            }
+              if ( progress !== 100) {
+                setProgress(prev => prev + 5)
+              }
+                console.log('commercial go')
+                console.log('step: ', step)
+              } else {
+                setStep(step + 1);
+                if ( progress !== 100) {
+                  setProgress(prev => prev + 5)
+                }
+              }
+
           }}
           // disabled={intakeform[step + 1] == undefined || intakeform[step + 1] == "" ||  Array.isArray(intakeform[step + 1]) && !intakeform[step + 1].some(ele => ele === true)}
         >
-          NEXT
+          {(step == 5) ? 
+            `I understand that I may require the services of a Customs Broker.`
+          :
+          (step == 7) ? 
+            `I Understand the Import Requirements.`
+          :
+         `NEXT`
+          }
         </Button>
       )}
     </section>
@@ -544,7 +675,7 @@ export default function Intakeform(props) {
     ...CommercialPages
   ];
 
-  useEffect(() => console.log("wizards: ", wizards), [wizards]);
+  // useEffect(() => console.log("wizards: ", wizards), [wizards]);
 
   return (
     <div className={intakeCSS.container}>

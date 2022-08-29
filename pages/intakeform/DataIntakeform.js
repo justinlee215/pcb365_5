@@ -471,34 +471,27 @@ const data = {
     {
       id: "52",
       title: "You will need to hire a Customs Broker",
+      titleb: "Your airline carrier may require you to hire a Customs Broker",
       subtext: "Fluffy is rollin' by truck",
+      subtextb: "Fluffy is flyin' first class",
       content:
         "Fluffy will need to travel by a licensed and registered ground Transport Carrier. ",
-      content1:
+      contentb:
+      "Everythidng entering Canada must be declared to Canada Customs (also known as the Canada Border Services Agency).",
+      paragraph:
         "Because Fluffy will be unaccompanied by you (*the owner), there are certain requirements that must be met, and processes that must be taken, including a Formal Customs Declaration. The transportation carrier you hire will require you to hire a Customs Broker to make this declaration on your behalf to avoid any delays that may stress poor Fluffy out.",
-      content2:
+      paragraphb:
+      "When traveling by air, this declaration can be made by the airline on your behalf in some cases.",
+      paragraphSecond:
         "*The person who has purchased, adopted, or is the current owner of an animal born or currently residing in a country outside of Canada.",
+      paragraphSecondb:
+        "However, some airline carriers may require you to hire a Customs Broker to meet the arriving plane at the airport to declare Fluffy to Canada Customs upon arrival in Canada.",
       question:
         "What mode of transportation are you planning to use to bring your animal into Canada?",
       type: "button",
       buttonTitle: "Ready for the Next Step?",
       buttonText:
         "I understand that I must report the animal to Canada Customs, and that I need the services of a Customs Broker to do so.",
-    },
-    {
-      id: "53",
-      title: "Your airline carrier may require you to hire a Customs Broker",
-      subtext: "Fluffy is flyin' first class",
-      contentTitle:
-        "Everything entering Canada must be declared to Canada Customs (also known as the Canada Border Services Agency).",
-      content1:
-        "When traveling by air, this declaration can be made by the airline on your behalf in some cases.",
-      content2:
-        "However, some airline carriers may require you to hire a Customs Broker to meet the arriving plane at the airport to declare Fluffy to Canada Customs upon arrival in Canada.",
-      type: "button",
-      buttonTitle: "Ready for the Next Step?",
-      buttonText:
-        "I understand that I may require the services of a Customs Broker.",
     },
     {
       id: "55",
