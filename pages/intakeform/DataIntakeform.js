@@ -709,45 +709,67 @@ const data = {
     {
       id: "150",
       mainTitle: "Import Fuel Powered Vehicles And Equipment",
-      title1: {
-        title: "Into Canada (From the USA)",
-        buttons: [
-          {
-            type: "button",
-            buttonText: "Under 15 Years Old",
-          },
-          {
-            type: "button",
-            buttonText: "Over 15 Years Old",
-          },
-          {
-            type: "button",
-            buttonText: "Tires",
-          },
-        ],
-      },
-      title2: {
-        title: "Into the USA (From Canada)",
-        buttons: [
-          {
-            type: "button",
-            buttonText: "Under 25 Years Old",
-          },
-          {
-            type: "button",
-            buttonText: "Over 25 Years Old",
-          },
-          {
-            type: "button",
-            buttonText: "Tires",
-          },
-        ],
-      },
+      questions: [
+        {
+          question: "Into Canada (From the USA)",
+          type: "radio",
+          choices: ["Under 15 Years Old", "Over 15 Years Old", "Tires"]
+        },
+        {
+          question: "Into the USA (From Canada)",
+          type: "radio",
+          choices: ["Under 25 Years Old", "Over 25 Years Old", "Tires"]
+        }
+      ]
+    },
+    {
+      id: "151",
+      mainTitle: "Import Fuel Powered Vehicles And Equipment",
+      subTitle: ["Into Canada (From The USA) > Under 15 Years Old", "Into Canada (From The USA) > Under 15 Years Old", "Into Canada (From The USA) > Tires", "Into The USA (From Canada) > Under 25 Years Old", "Into The USA (From Canada) > Over 25 Years Old", "Into The USA (From Canada) > Tires"],
+      questions: 
+      [
+        {
+          question: "Vehicle Type",
+          type: "radio",
+          choices: [
+           "Fuel Powered Forklifts and Self Propelled Ride-on Pallet Jacks(On Road Use)",
+           "Heavy Duty Machinery(Excavator, Backhoes, Rock and Articulated Dump Trucks, Crawler Tractor, etc)(Off Road Use)",
+           "Heavy Duty Trucks for the Transport of Goods(5 ton cube type vans)(On Road Use)",
+           "Mobile Cranes and Special Purpose Motor Vehicles(On Road Use)",
+            "Trailer Mounted Equipment(102' in width or less)(On Road Use)",
+            "Trailer Mounted Equipment(exceeding 102' in width)(On Road Use)",
+            "Truck Tractors and Vehicles(Configured on a Tractor Chassis, Concrete Mixer, Fire Fighting Equipment, etc.)(On Road Use)",
+            "Trucks(Pick Up Trucks, Cargo Vans, Passenger Vehicles)(On Road Use)",
+            "Fire Fighting Equipment(On Road Use)",
+            "Concrete Mixera(On Road Use",
+            "Dump Trucks(On Road Use)",
+            "Rock and Articulated Dump Trucks(Off Road Use)",
+            "Used Pneumatic Tires(On Road Use)",
+            "New Pneumatic Tires(On Road Use)",
+            "Used Pneumatic Tires(Off Road Use)",
+            "New Pneumatic Tires(Off Road Use)",
+            "Fuel Powered Forklift(Salvaged/ Rebuilt Title: )",
+            "Fuel Powered Generators and other Fuel Powered Equipment(Salvaged/ Rebuilt Title: )",
+            "Truck Tractors and Vehicles(Salvaged/ Rebuilt Title: X)",
+            "Heavy Duty Trucks for the Transport of Goods(Salvaged/ Rebuilt Title: X)",
+            "Rock and Articulated Dump Trucks(Salvaged/ Rebuilt Title: )",
+            "Trucks(Salvaged/ Rebuilt Title: X)",
+            "Heavy Duty Machinery w/ fuel powered engines(Salvaged/ Rebuilt Title: )"
+          ]
+        }
+      ]
+    },
+    {
+      id: "152",
+      mainTitle: "Import Fuel Powered Vehicles And Equipment",
+      choice: {
+        title: ""
+      }
     },
     {
       id: "200",
       question: "Please describe what you would like to import",
-      type: "textbox",
+      type: "textarea",
     },
     {
       id: "1000",

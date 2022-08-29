@@ -1,6 +1,6 @@
 .container {
   /* background-color: aliceblue; */
-  min-height: 100vh;
+  min-height: 80vh;
   display: grid;
   place-items: center;
   transition: 250ms ease-in-out;
@@ -11,7 +11,8 @@
 .content {
   background-color: #002d72;
   display: flex;
-  height: 40rem;
+  height: 100%;
+  min-height: 100vh;
   box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;  border-radius: 3px;
   /* border-right: 1.5rem solid var(--pcb-color-red); */
   transition: 250ms ease-in-out;
@@ -38,7 +39,10 @@
   margin-bottom: 3rem;
 }
 
-.loginSection {
+.formSection {
+  display: grid;
+  /* justify-content: center; */
+  align-items: center;
   background-color: #fff;
   min-width: 28rem;
   max-width: 28rem;
@@ -46,11 +50,11 @@
   border-radius: 0 2px 2px 0;
 }
 
-.loginSection_error {
+.formSection_error {
   height: 2.5rem;
 }
 
-.loginSection_content {
+.formSection_content {
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
@@ -60,7 +64,7 @@
   min-width: 25rem;
 }
 
-.loginSection_logo {
+.formSection_logo {
   display: none;
   place-items: center;
   height: 3rem;
@@ -88,7 +92,7 @@
    display: none;
   }
 
-  .loginSection {
+  .formSection {
     border-radius: 5px;
   }
 
@@ -96,7 +100,7 @@
     border-radius: 7px;
   }
 
-  .loginSection_logo {
+  .formSection_logo {
     margin-top: 0rem;
     display: grid;
     place-items: center;
@@ -105,11 +109,11 @@
   
   }
 
-  .loginSection_error {
+  .formSection_error {
     height: 0rem;
   }
 
-  .loginSection {
+  .formSection {
     box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
   }
 
@@ -119,4 +123,12 @@
     margin: 1.1rem 1rem 0.8rem 1rem;
     color: rgba(71, 71, 71, 0.8);
   }
+}
+
+.buttons {
+  width: 90%;
+  /* background-color: aqua; */
+  display: flex;
+  justify-content: space-between;
+  margin: 1rem;
 }
