@@ -1,23 +1,37 @@
 import intakeCSS from "./intakeform.module.css";
 import { Form, Button, ProgressBar } from "react-bootstrap";
 import { useState, useEffect } from "react";
+import ButtonGroup from "react-bootstrap/ButtonGroup";
+import ToggleButton from "react-bootstrap/ToggleButton";
+import ToggleButtonGroup from "react-bootstrap/ToggleButtonGroup";
+
 import Image from "next/image";
 import Head from "next/head";
 
-import { apiAddress } from "../../utils/apiAddress";
+// import MongooseConnect from "be_libs/db/mongooseConnect";
+
+// import Intakeform from "models/intakeform";
+// import { useDebounce } from "fe_helpers/_functions";
+
+// import IndicatorSave from "components/onboarding/IndicatorSave";
+
+// import { updateIntakeform } from "fe_helpers/misc";
 
 import data from "./DataIntakeform.js";
 
 import axios from "axios";
 
-import Input from "../../components/Input";
-import Radio from "../../components/Radio";
-import Select from "../../components/Select";
-import Checkbox from "../../components/Checkbox";
+import Input from "../../components/intakeform/Input";
+import Radio from "../../components/intakeform/Radio";
+import Select from "../../components/intakeform/Select";
+import Checkbox from "../../components/intakeform/Checkbox";
+import { HorizontalRadioBoxes } from "../../components/intakeform/HorizontalRadioBoxes";
+import { VerticalRadioBoxes } from "../../components/intakeform/VerticalRadioBoxes";
+import { VerticalCheckBoxes } from "../../components/intakeform/VerticalCheckBoxes";
 
 import Link from "next/link";
 
-export default function Intakeform(props) {
+export default function IntakeformPage(props) {
   // console.log("data", data);
   const [answer, setAnswer] = useState("");
   const [intakeform, setIntakeform] = useState({});
@@ -26,10 +40,22 @@ export default function Intakeform(props) {
   const [step, setStep] = useState(0);
   const [pageQuantity, setPageQuantity] = useState(questionQuantity);
 
-  const [progress, setProgress] = useState(5)
+  const [progress, setProgress] = useState(0);
 
-  // const sessionData = localStorage.setItem("intakeform");
+  const [saving, setSaving] = useState(false);
+  const [lastSaving, setLastSaving] = useState("");
+
+  // const saveLoader = useDebounce(intakeform, 6000);
+  // const debouncedIntakeform = useDebounce(intakeform, 7000);
+
+  // const sessionData = sessionStorage.setItem("intakeform");
   // const sessionDataObject = JSON.parse(sessionData);
+
+  //get Last saved duratioin time
+  const getDuration = (currentSaving) => {
+    const duration = currentSaving - lastSaving;
+    return duration;
+  };
 
   const [checkedState1, setCheckedState1] = useState(
     new Array(data.questions[0].choices.length).fill(false)
@@ -47,17 +73,47 @@ export default function Intakeform(props) {
     console.log("intakeform: ", intakeform);
   }, [intakeform]);
 
+  //calls debounced Hook to save the change automatically to MongoDB
+  // useEffect(async () => {
+  //     const dataUpdated = await updateIntakeform(intakeform);
+  //     if (dataUpdated.status === 200) {
+  //         setLastSaving(new Date());
+  //     } else {
+  //         // TODO => show error
+  //     }
+  //     setSaving(false);
+  // }, [debouncedIntakeform]);
+
+  // useEffect(() => {
+  //     setSaving(true);
+  // }, [saveLoader]);
+
   // useEffect(function mount() {
-  //   function onScroll() {
-  //     console.log("scroll!");
-  //   }
+  //     function onScroll() {
+  //         console.log("scroll!");
+  //     }
 
-  //   window.addEventListener("scroll", onScroll);
+  //     window.addEventListener("scroll", onScroll);
 
-  //   return function unMount() {
-  //     window.removeEventListener("scroll", onScroll);
-  //   };
+  //     return function unMount() {
+  //         window.removeEventListener("scroll", onScroll);
+  //     };
   // });
+
+  // useEffect(() => {
+  //     window.sessionStorage.setItem("intakeform", intakeform);
+
+  //     console.log("initial sessionD: ", window.sessionStorage.setItem("intakeform", intakeform));
+  // }, []);
+
+  // useEffect(
+  //     function sessionStorageSave() {
+  //         let sessionData = window.sessionStorage.getItem("intakeform");
+
+  //         console.log("sessionD: ", JSON.stringify(sessionData["3"]));
+  //     },
+  //     [intakeform]
+  // );
 
   const handleChange = (e) => {
     setAnswer(e.target.value);
@@ -82,6 +138,16 @@ export default function Intakeform(props) {
       //update sessionData in MongoDB
       await updateSessionToMongoDB();
     }
+  };
+
+  const createSession = async () => {
+    return await axios
+      .post(HOST + "/api/intakeform", intakeform)
+      .then((data) => {
+        sessionStorage.setItem("intakeform", JSON.stringify(data));
+        return data;
+      })
+      .catch((err) => console.log(err));
   };
 
   const updateSessionToMongoDB = async () => {
@@ -122,21 +188,26 @@ export default function Intakeform(props) {
 
     return (
       <div>
-        <h3 style={{ marginBottom: "2rem"}}>Select all that apply</h3>
-        <div className="">
-          {data.questions[0].choices.map((choice, i) => (
-            <div style={{ marginBottom: "1rem"}} key={i + data.questions[0].question}>
-              <Checkbox
-                checked={intakeform[1]?.[i]}
-                name={data.questions[0].id}
-                label={choice}
-                value={i + 1}
-                handleChangeCheckbox={() =>
-                  handleChangeCheckbox(data.questions[0].id, i)
-                }
-              />
-            </div>
-          ))}
+        <h3 style={{ marginBottom: "2rem" }}>Select all that apply</h3>
+        <div className={intakeCSS.checkboxContainer}>
+          <VerticalCheckBoxes
+            item={data.questions[0]}
+            intakeform={intakeform}
+            handleChangeCheckbox={handleChangeCheckbox}
+            index={data.questions[0].id}
+          />
+
+          {/* {data.questions[0].choices.map((choice, i) => (
+                        <div style={{ marginBottom: "1rem" }} key={i + data.questions[0].question}>
+                            <Checkbox
+                                checked={intakeform[1]?.[i]}
+                                name={data.questions[0].id}
+                                label={choice}
+                                value={i + 1}
+                                handleChangeCheckbox={() => handleChangeCheckbox(data.questions[0].id, i)}
+                            />
+                        </div>
+                    ))} */}
         </div>
       </div>
     );
@@ -172,42 +243,73 @@ export default function Intakeform(props) {
 
     return (
       <div className="">
-
+        {/* {(checkedState1[0] || checkedState1[1]) &&
+                    data.questions.slice(1, 3).map((question, idx) => (
+                        <div style={{ marginBottom: "2rem" }} key={data.questions[1].question + idx}>
+                            <h3 style={{ marginBottom: "1rem" }}>{question.question}</h3>
+                            {question.choices.map((choice, i) => (
+                                <div key={choice + i} style={{ marginBottom: "0.5rem" }}>
+                                    <Radio
+                                        value={i + 1}
+                                        checked={i + 1 == intakeform[question.id]}
+                                        label={choice}
+                                        name={question.id}
+                                        handleChange={handleChange}
+                                    />
+                                </div>
+                            ))}
+                        </div>
+                    ))} */}
         {(checkedState1[0] || checkedState1[1]) &&
           data.questions.slice(1, 3).map((question, idx) => (
-            <div style={{ marginBottom: "2rem"}} key={data.questions[1].question + idx}>
-              <h3 style={{ marginBottom: "1rem"}}>{question.question}</h3>
-              {question.choices.map((choice, i) => (
-                <div key={choice + i} style={{ marginBottom: "0.5rem"}}>
-                  <Radio
-              
-                    value={i + 1}
-                    checked={i + 1 == intakeform[question.id]}
-                    label={choice}
-                    name={question.id}
-                    handleChange={handleChange}
-                  />
-                </div>
-              ))}
+            <div
+              style={{ marginBottom: "2rem" }}
+              key={data.questions[1].question + idx}
+            >
+              <h3 style={{ marginBottom: "1rem" }}>{question.question}</h3>
+              {/* {question.choices.map((choice, i) => (
+                                <div key={choice + i} style={{ marginBottom: "0.5rem" }}>
+                                    <Radio
+                                        value={i + 1}
+                                        checked={i + 1 == intakeform[question.id]}
+                                        label={choice}
+                                        name={question.id}
+                                        handleChange={handleChange}
+                                    />
+                                </div>
+                            ))} */}
+              <HorizontalRadioBoxes
+                item={question}
+                intakeform={intakeform}
+                handleChange={handleChange}
+              />
             </div>
           ))}
 
         {checkedState1[2] &&
           data.questions.slice(4, 8).map((question, idx) => (
-            <div key={question + idx} style={{ marginTop: "2rem", marginBottom: "1rem"}}>
+            <div
+              key={question + idx}
+              style={{ marginTop: "2rem", marginBottom: "1rem" }}
+            >
               <h3>{question.question}</h3>
               {question.type == "radioButton" ? (
-                question.choices.map((choice, i) => (
-                  <div key={data.questions[2].question + i}>
-                    <Radio
-                      value={i + 1}
-                      checked={i + 1 == intakeform[question.id]}
-                      label={choice}
-                      name={question.id}
-                      handleChange={handleChange}
-                    />
-                  </div>
-                ))
+                // question.choices.map((choice, i) => (
+                //     <div key={data.questions[2].question + i}>
+                //         <Radio
+                //             value={i + 1}
+                //             checked={i + 1 == intakeform[question.id]}
+                //             label={choice}
+                //             name={question.id}
+                //             handleChange={handleChange}
+                //         />
+                //     </div>
+                // ))
+                <VerticalRadioBoxes
+                  item={question}
+                  intakeform={intakeform}
+                  handleChange={handleChange}
+                />
               ) : question.type == "select" ? (
                 <Select
                   choices={question.choices}
@@ -228,7 +330,7 @@ export default function Intakeform(props) {
           ))}
 
         {checkedState1[3] && (
-          <div style={{ margin: "2rem 0"}}>
+          <div style={{ margin: "2rem 0" }}>
             <h3>{data.questions[8].question}</h3>
             {data.questions[8].choices.map((choice, i) => (
               <Checkbox
@@ -264,145 +366,129 @@ export default function Intakeform(props) {
   const dataDog = data.questions.slice(12, 21);
   const dataHorses = data.questions.slice(21, 24);
   const dataCars = data.questions.slice(24, 27);
-  const dataCommercials = data.questions.slice(30, 49);
+  const dataCommercials = data.questions.slice(29, 49);
 
   const DogCat = dataDog.map((ele, i) => (
     <div key={ele + i}>
-          {(ele.id == 52) ?
-              <div>
-                { intakeform[51] == '1' 
-                  ?
-                  <>
-              <h3>{ele.title}</h3>
-                    <h5>{ele.subtext}</h5>
-                    <p>{ele.content}</p>
-                    <p>{ele.paragraph}</p>
-                    <p>{ele.paragraphSecond}</p>
-
-                  </>
-                  :
-                  <>
-              <h3>{ele.titleb}</h3>
-                    <h5>{ele.subtextb}</h5>
-                    <p>{ele.contentb}</p>
-              <p>{ele.paragraphb}</p>
-                    <p>{ele.paragraphSecondb}</p>
-       
-                  </>
-                }
-              </div>
-            :
-        (ele.id == 56) ?
-          <div>
-            <h3>{ele.title}</h3>
-            {intakeform[55] == '1'
-              ?
-              <>
-                <h5>{ele.subtext}</h5>
-                <p>{ele.content}</p>
-                <p>{ele.paragraph}</p>
-                <p>{ele.paragraphSecond}</p>
-                <h5>{ele.contentTitle}</h5>
-                <h6>{ele.contentTitleSub}</h6>
-                <h5>{ele.contentTitle2}</h5>
-
-                <h5>{ele.contentTitle3}</h5>
-                <h6>{ele.contentBold1}</h6>
-                <p>{ele.content1}</p>
-
-
-              </>
-              :
-              intakeform[55] == '2'
-                ?
-              <>
-                <h5>{ele.subtext1}</h5>
-                <p>{ele.contentb}</p>
-                <p>{ele.paragraphb}</p>
-                <p>{ele.paragraphSecondb}</p>
-                <h5>{ele.contentTitle}</h5>
-                <h6>{ele.contentTitleSub}</h6>
-                  <h5>{ele.contentTitle2}</h5>
-
-                  <h5>{ele.contentTitle3}</h5>
-                     <p>{ele.content2}</p>
-
-              </>
-              : 
-              intakeform[55] == '3'
-                ?
-              <>
-                <h5>{ele.subtext2}</h5>
-                <p>{ele.contentb}</p>
-                <p>{ele.paragraphb}</p>
-                <p>{ele.paragraphSecondb}</p>
-                       <h5>{ele.contentTitle}</h5>
-                <h6>{ele.contentTitleSub}</h6>
-                     <p>{ele.content3}</p>
-
-              </>
-              :
-              intakeform[55] == '4'
-                ?
-              <>
-                <h5>{ele.subtext3}</h5>
-                <p>{ele.contentb}</p>
-                <p>{ele.paragraphb}</p>
-                <p>{ele.paragraphSecondb}</p>
-                       <h5>{ele.contentTitle}</h5>
-                <h6>{ele.contentTitleSub}</h6>
-                     <p>{ele.content4}</p>
-
-              </>
-              : 
-              intakeform[55] == '5'
-                ?
-                <>
-                  <h5>{ele.subtext4}</h5>
-                  <p>{ele.contentb}</p>
-                  <p>{ele.paragraphb}</p>
-                  <p>{ele.paragraphSecondb}</p>
-                        <h5>{ele.contentTitle}</h5>
-                        <h6>{ele.contentTitleSub}</h6>
-                             <p>{ele.content5}</p>
-
-                </>
-                :   
-              null
-            }
-          </div>
-          :
-            (
-              <>
+      {ele.id == 52 ? (
+        <div>
+          {intakeform[51] == "1" ? (
+            <>
               <h3>{ele.title}</h3>
               <h5>{ele.subtext}</h5>
-              <h5>{ele.subtext1}</h5>
-              <h5>{ele.subtext2}</h5>
-              <h5>{ele.subtext3}</h5>
-              <h4>{ele.contentTitle}</h4>
-              <h4>{ele.contentTitle2}</h4>
-              <h4>{ele.contentTitle3}</h4>
               <p>{ele.content}</p>
+              <p>{ele.paragraph}</p>
+              <p>{ele.paragraphSecond}</p>
+            </>
+          ) : (
+            <>
+              <h3>{ele.titleb}</h3>
+              <h5>{ele.subtextb}</h5>
+              <p>{ele.contentb}</p>
+              <p>{ele.paragraphb}</p>
+              <p>{ele.paragraphSecondb}</p>
+            </>
+          )}
+        </div>
+      ) : ele.id == 56 ? (
+        <div>
+          <h3>{ele.title}</h3>
+          {intakeform[55] == "1" ? (
+            <>
+              <h5>{ele.subtext}</h5>
+              <p>{ele.content}</p>
+              <p>{ele.paragraph}</p>
+              <p>{ele.paragraphSecond}</p>
+              <h5>{ele.contentTitle}</h5>
+              <h6>{ele.contentTitleSub}</h6>
+              <h5>{ele.contentTitle2}</h5>
+
+              <h5>{ele.contentTitle3}</h5>
+              <h6>{ele.contentBold1}</h6>
               <p>{ele.content1}</p>
+            </>
+          ) : intakeform[55] == "2" ? (
+            <>
+              <h5>{ele.subtext1}</h5>
+              <p>{ele.contentb}</p>
+              <p>{ele.paragraphb}</p>
+              <p>{ele.paragraphSecondb}</p>
+              <h5>{ele.contentTitle}</h5>
+              <h6>{ele.contentTitleSub}</h6>
+              <h5>{ele.contentTitle2}</h5>
+
+              <h5>{ele.contentTitle3}</h5>
               <p>{ele.content2}</p>
+            </>
+          ) : intakeform[55] == "3" ? (
+            <>
+              <h5>{ele.subtext2}</h5>
+              <p>{ele.contentb}</p>
+              <p>{ele.paragraphb}</p>
+              <p>{ele.paragraphSecondb}</p>
+              <h5>{ele.contentTitle}</h5>
+              <h6>{ele.contentTitleSub}</h6>
+              <p>{ele.content3}</p>
+            </>
+          ) : intakeform[55] == "4" ? (
+            <>
+              <h5>{ele.subtext3}</h5>
+              <p>{ele.contentb}</p>
+              <p>{ele.paragraphb}</p>
+              <p>{ele.paragraphSecondb}</p>
+              <h5>{ele.contentTitle}</h5>
+              <h6>{ele.contentTitleSub}</h6>
+              <p>{ele.content4}</p>
+            </>
+          ) : intakeform[55] == "5" ? (
+            <>
+              <h5>{ele.subtext4}</h5>
+              <p>{ele.contentb}</p>
+              <p>{ele.paragraphb}</p>
+              <p>{ele.paragraphSecondb}</p>
+              <h5>{ele.contentTitle}</h5>
+              <h6>{ele.contentTitleSub}</h6>
+              <p>{ele.content5}</p>
+            </>
+          ) : null}
+        </div>
+      ) : (
+        <>
+          <h3>{ele.title}</h3>
+          <h5>{ele.subtext}</h5>
+          <h5>{ele.subtext1}</h5>
+          <h5>{ele.subtext2}</h5>
+          <h5>{ele.subtext3}</h5>
+          <h4>{ele.contentTitle}</h4>
+          <h4>{ele.contentTitle2}</h4>
+          <h4>{ele.contentTitle3}</h4>
+          <p>{ele.content}</p>
+          <p>{ele.content1}</p>
+          <p>{ele.content2}</p>
 
-              <div>
-                <h5>{ele.question}</h5>
-                {ele.choices?.map((choice, idx) => (
-                  <div key={choice + idx} style={{ margin: "1rem 0"}}>
-                    <Radio label={choice} value={idx + 1} name={ele.id} checked={intakeform[ele.id] == idx + 1}
-                      handleChange={(e) => {
-                        setIntakeform({ ...intakeform, [e.target.name]: e.target.value });
-                        console.log("intakeform: ", intakeform);
-                      }} />
-                  </div>
-                ))}
-                {/* {ele.type == "button" && <button>{ele.buttonText}</button>} */}
+          <div>
+            <h5>{ele.question}</h5>
+            {ele.choices?.map((choice, idx) => (
+              <div key={choice + idx} style={{ margin: "1rem 0" }}>
+                <Radio
+                  label={choice}
+                  value={idx + 1}
+                  name={ele.id}
+                  checked={intakeform[ele.id] == idx + 1}
+                  handleChange={(e) => {
+                    setIntakeform({
+                      ...intakeform,
+                      [e.target.name]: e.target.value,
+                    });
+                    console.log("intakeform: ", intakeform);
+                  }}
+                />
               </div>
-              </>
-            )
-          }
-
+            ))}
+            {/* {ele.type == "button" && <button>{ele.buttonText}</button>} */}
+          </div>
+        </>
+      )}
     </div>
   ));
 
@@ -423,43 +509,40 @@ export default function Intakeform(props) {
 
       <div>
         <h5>{ele.question}</h5>
-      
-        {(ele.type == "radio") && 
-         ele.choices.map((choice, idx) => (
-           <div key={choice + idx}>
-             <Radio label={choice} />
-           </div>)
-         )}
+
+        {ele.type == "radio" &&
+          ele.choices.map((choice, idx) => (
+            <div key={choice + idx}>
+              <Radio label={choice} />
+            </div>
+          ))}
         {ele.type == "text" && (
-        <div style={{ margin: "2rem 0"}}>
-          <Input label={ele.label} style={{ margin: "1rem 0"}}/>
-        </div>
+          <div style={{ margin: "2rem 0" }}>
+            <Input label={ele.label} style={{ margin: "1rem 0" }} />
+          </div>
         )}
       </div>
     </div>
   ));
 
-
   const Cars = dataCars.map((ele, i) => (
-
     <div key={ele.id}>
       <div>page: {i + 1}</div>
       <h3>{ele.mainTitle}</h3>
-      {ele.questions?.map((question, i)=> (
+      {ele.questions?.map((question, i) => (
         <div key={question + i}>
-        <h4>{question.question}</h4>
-          {(question.type == "radio") &&
-          question.choices.map((choice, idx) => 
-            <div key={choice + idx}>
+          <h4>{question.question}</h4>
+          {question.type == "radio" &&
+            question.choices.map((choice, idx) => (
+              <div key={choice + idx}>
+                <Radio label={choice} name={ele.mainTitle} />
 
-              <Radio label={choice} name={ele.mainTitle}/>
-
-            {question.type == "textarea" && (
-              <Input label={ele.label} type="textarea"/>)
-            }
-            </div>
-          )}
-          </div>
+                {question.type == "textarea" && (
+                  <Input label={ele.label} type="textarea" />
+                )}
+              </div>
+            ))}
+        </div>
       ))}
     </div>
   ));
@@ -471,24 +554,50 @@ export default function Intakeform(props) {
         <h3>Personal</h3>
         <div className="">{dataPersonal.question}</div>
         {dataPersonal.choices.map((choice, i) => (
-          <Radio
+          <div
             key={choice + i}
-            label={choice}
             name={dataPersonal.id}
             value={i + 1}
+            style={{
+              border:
+                intakeform[dataPersonal.id] == i + 1
+                  ? "5px solid #a6192e"
+                  : "1px solid #002d72",
+              // backgroundColor: intakeform[dataPersonal.id] == i + 1 ? "#002d72" : "white",
+              color:
+                intakeform[dataPersonal.id] == i + 1 ? "#a6192e" : "#002d72",
+              padding: "0.4rem",
+              fontSize: intakeform[dataPersonal.id] == i + 1 ? "1rem" : "1rem",
+            }}
+            className={intakeCSS.radio}
             checked={intakeform[4] == i + 1}
-            handleChange={(e) => {
-              setIntakeform({ ...intakeform, [e.target.name]: e.target.value });
+            onClick={(e) => {
+              console.log("hello world");
+              setIntakeform({ ...intakeform, [dataPersonal.id]: i + 1 });
               console.log("intakeform: ", intakeform);
             }}
-          />
+          >
+            <Radio
+              label={choice}
+              name={dataPersonal.id}
+              value={i + 1}
+              checked={intakeform[4] == i + 1}
+              handleChange={(e) => {
+                setIntakeform({
+                  ...intakeform,
+                  [e.target.name]: e.target.value,
+                });
+                console.log("intakeform: ", intakeform);
+              }}
+            />
+          </div>
         ))}
       </>
     );
   };
 
   const Commercial = () => {
-    const dataCommercial = data.questions[30];
+    const dataCommercial = data.questions[29];
 
     return (
       <>
@@ -512,8 +621,7 @@ export default function Intakeform(props) {
     );
   };
 
-
-    const CommercialPages = dataCommercials.map((ele, i) => (
+  const CommercialPages = dataCommercials.map((ele, i) => (
     <div key={ele + i}>
       <div>commercial page: {i + 1}</div>
       <h3>{ele.title}</h3>
@@ -530,22 +638,23 @@ export default function Intakeform(props) {
 
       <div>
         <h5>{ele.question}</h5>
-      
-        {(ele.type == "radio") && 
-         ele.choices.map((choice, idx) => (
-           <div key={choice + idx}>
-             <Radio label={choice} />
-           </div>)
-         )}
+
+        {ele.type == "radio" &&
+          ele.choices.map((choice, idx) => (
+            <div key={choice + idx}>
+              <Radio label={choice} />
+            </div>
+          ))}
         {ele.type == "text" && (
-        <div style={{ margin: "2rem 0"}}>
-          <Input label={ele.label} 
-              style={{ margin: "1rem 0"}}
+          <div style={{ margin: "2rem 0" }}>
+            <Input
+              label={ele.label}
+              style={{ margin: "1rem 0" }}
               value={intakeform[ele.id]}
               name={ele.id}
               handleChange={handleChange}
             />
-        </div>
+          </div>
         )}
       </div>
     </div>
@@ -594,32 +703,33 @@ export default function Intakeform(props) {
 
   const Buttons = () => (
     <section className={intakeCSS.buttons}>
-        <Button style={{ visibility: step == 0 ? `hidden` : `visible`}}
-          type="button"
-          onClick={() => {
-            if (!progress == 0 || !progress == 100) {
+      <Button
+        className={intakeCSS.backbutton}
+        style={{ visibility: step == 0 ? `hidden` : `visible` }}
+        type="button"
+        onClick={() => {
+          if (!progress == 0 || !progress == 100) {
             if (step == 19) {
-              setStep(step - 17)
-              setProgress(prev => prev - 5)
+              setStep(step - 17);
+              setProgress((prev) => prev - 5);
               setIntakeform({ ...intakeform, [2001]: null });
-              console.log('commercial go')
-              console.log('step: ', step)
-            }
-            else if (step == 2) {
+              console.log("commercial go");
+              console.log("step: ", step);
+            } else if (step == 2) {
               setIntakeform({ ...intakeform, [2000]: null });
               setStep(step - 1);
-              setProgress(prev => prev - 5)
-              console.log('step: ', step)
+              setProgress((prev) => prev - 5);
+              console.log("step: ", step);
             } else {
               setStep(step - 1);
-              setProgress(prev => prev - 5)
-              console.log('step: ', step)
+              setProgress((prev) => prev - 5);
+              console.log("step: ", step);
             }
           }
-          }}
-        >
-          BACK
-        </Button>
+        }}
+      >
+        BACK
+      </Button>
       {step === pageQuantity - 1 && (
         <Button
           onClick={handleSubmit}
@@ -631,35 +741,39 @@ export default function Intakeform(props) {
 
       {step < pageQuantity - 1 && (
         <Button
-          style={{ height : step == 5 || step == 7 ? `5rem` : 'default', width: step == 5 || step == 7 ? `14rem`: `default`}}
+          className={intakeCSS.button}
+          style={{
+            height: step == 5 || step == 7 ? `5rem` : "default",
+            width: step == 5 || step == 7 ? `14rem` : `default`,
+          }}
           type="button"
           onClick={() => {
             // console.log('progress: ', progress)
             if (step == 2 && intakeform[2000] && !intakeform[2001]) {
-              setStep(step + 17)
-              if ( progress !== 100) {
-                setProgress(prev => prev + 5)
+              setStep(step + 17);
+              if (progress !== 100) {
+                setProgress((prev) => prev + 5);
               }
-                console.log('commercial go')
-                console.log('step: ', step)
-              } else {
-                setStep(step + 1);
-                if ( progress !== 100) {
-                  setProgress(prev => prev + 5)
-                }
+              console.log("commercial go");
+              console.log("step: ", step);
+            } else {
+              setStep(step + 1);
+              if (progress !== 100) {
+                setProgress((prev) => prev + 5);
               }
-
+            }
           }}
-          // disabled={intakeform[step + 1] == undefined || intakeform[step + 1] == "" ||  Array.isArray(intakeform[step + 1]) && !intakeform[step + 1].some(ele => ele === true)}
+          // disabled={
+          //     intakeform[step + 1] == undefined ||
+          //     intakeform[step + 1] == "" ||
+          //     (Array.isArray(intakeform[step + 1]) && !intakeform[step + 1].some((ele) => ele === true))
+          // }
         >
-          {(step == 5) ? 
-            `I understand that I may require the services of a Customs Broker.`
-          :
-          (step == 7) ? 
-            `I Understand the Import Requirements.`
-          :
-         `NEXT`
-          }
+          {step == 5
+            ? `I understand that I may require the services of a Customs Broker.`
+            : step == 7
+            ? `I Understand the Import Requirements.`
+            : `NEXT`}
         </Button>
       )}
     </section>
@@ -672,18 +786,68 @@ export default function Intakeform(props) {
     ...DogCat,
     ...Horses,
     ...Cars,
-    ...CommercialPages
+    ...CommercialPages,
   ];
 
   // useEffect(() => console.log("wizards: ", wizards), [wizards]);
 
+  function ToggleButtonExample() {
+    const [checked, setChecked] = useState(false);
+    const [radioValue, setRadioValue] = useState("1");
+
+    const radios = [
+      { name: "1", value: "1" },
+      { name: "2", value: "2" },
+      { name: "3", value: "3" },
+    ];
+
+    return (
+      <>
+        <ButtonGroup className="mb-2">
+          {radios.map((radio, idx) => (
+            <ToggleButton
+              key={idx}
+              id={`radio-${idx}`}
+              type="radio"
+              variant="secondary"
+              name="radio"
+              value={radio.value}
+              checked={radioValue === radio.value}
+              onChange={(e) => setRadioValue(e.currentTarget.value)}
+            >
+              {radio.name}
+            </ToggleButton>
+          ))}
+        </ButtonGroup>
+        <br />
+
+        <ToggleButtonGroup vertical={true} name="radio1">
+          {radios.map((radio, idx) => (
+            <ToggleButton
+              key={idx}
+              id={`radio-${idx}`}
+              type="radio"
+              variant={"outline-danger"}
+              name="radio1"
+              value={radio.value}
+              checked={radioValue === radio.value}
+              onChange={(e) => setRadioValue(e.currentTarget.value)}
+            >
+              {radio.name}
+            </ToggleButton>
+          ))}
+        </ToggleButtonGroup>
+      </>
+    );
+  }
+
   return (
-    <div className={intakeCSS.container}>
+    <div className={intakeCSS.containerbox}>
       <Head>
         <title>Intakeform - PCB365</title>
         <meta name="description" content="intakeform" />
       </Head>
-      <div className="container">
+      <div className={intakeCSS.containerbox}>
         <div className={intakeCSS.content}>
           <div className={intakeCSS.imageSection}>
             <Link href={"/"}>
@@ -701,14 +865,21 @@ export default function Intakeform(props) {
             </Link>
             <h4>Pacific Customs Brokers</h4>
             <p>24/7 Your Trade Process Under Control</p>
+            {/* <IndicatorSave saving={saving} getDuration={getDuration} /> */}
           </div>
           <div className={intakeCSS.formSection}>
             <h1>Get a Quote</h1>
-            step: {step}
+            {/* step: {step} */}
             <ProgressBar
-              now= {progress < 20 ? 12 : progress}
-              label={ `${progress} of 100`}
-              style={{ transition: "width 1s ease", marginBottom: "2rem"}}
+              now={progress}
+              // label={`${progress}`}
+              variant="danger"
+              style={{
+                transition: "width 1s ease",
+                marginBottom: "2rem",
+                height: "1.8rem",
+                fontSize: "1.3rem",
+              }}
             />
             {wizards[step]}
             <Buttons />
@@ -720,6 +891,8 @@ export default function Intakeform(props) {
 }
 
 export async function getServerSideProps(context) {
+  // await MongooseConnect();
+
   return {
     props: {
       query: "hello world!",
