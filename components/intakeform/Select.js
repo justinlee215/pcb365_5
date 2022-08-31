@@ -7,9 +7,9 @@ export default function Select({ question, name, choices, value, handleChange })
           {choices.map((choice, i)=>(
               <option 
                     value={i + 1} 
-                    key={choice.name + i} 
+                    key={choice + i} 
                     name={name}
-                >{choice.name}</option>
+                >{choice}</option>
           ))}
       </Form.Select>
   )

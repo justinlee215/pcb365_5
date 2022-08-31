@@ -346,19 +346,19 @@ const data = {
     {
       id: "2",
       question: "This is my first time importing",
-      type: "radioButton",
+      type: "radio",
       choices: ["Yes", "No"],
     },
     {
       id: "3",
       question: "My goods will be for ",
-      type: "radioButton",
+      type: "radio",
       choices: ["Personal use", "Commercial use"],
     },
     {
       id: "4",
       question: "Are you importing a:",
-      type: "radioButton",
+      type: "radio",
       choices: [
         "Dog/cat",
         "Horse",
@@ -370,7 +370,7 @@ const data = {
     {
       id: "5",
       question: "The Mode of transportation I plan to use is:",
-      type: "radioButton",
+      type: "radio",
       choices: ["Air", "Ocean", "Gound", "Courier"],
     },
     {
@@ -456,7 +456,7 @@ const data = {
       subtext:
         "Take Our Quiz To Uncover What You Will Need To Get Them Into Canada",
       question: "Let’s call them Fluffy! Are they a dog or a cat?",
-      type: "radioButton",
+      type: "radio",
       choices: ["Fluffy is a dog", "Fluffy is a cat"],
     },
     {
@@ -465,7 +465,7 @@ const data = {
       subtext: "...other than ‘In Style’ of course!",
       question:
         "What mode of transportation are you planning to use to bring your animal into Canada?",
-      type: "radioButton",
+      type: "radio",
       choices: ["By Truck", "By Plane"],
     },
     {
@@ -503,7 +503,7 @@ const data = {
         "Personal Import: A dog for your home (including service dogs adopted by the owner).",
       content2:
         "Commercial Import: A dog that is for sale, adoption, breeding, show, exhibition, scientific research, animal welfare organization, or service dog unaccompanied by their owner.",
-      type: "radioButton",
+      type: "radio",
       choices: [
         "Personal Import (Between 8 weeks to 8 months old)",
         "Personal Import (Older than 8 months)",
@@ -565,14 +565,14 @@ const data = {
       content2:
         "“Thank you so very much for your care and support facilitating our recent cross-border transfer. We are eternally grateful for your collective work helping this wee international traveler/pup from her only known home in Kelowna to ours, in Anacortes, just in time to melt our hearts and upend our lives.”",
 
-      type: "radioButton",
+      type: "radio",
       choices: [
         "I am ready (I want to start rignt now)",
         "I'm not ready(I need more information. *Please call me)",
       ],
     },
     {
-      id: "59",
+      id: "58",
       mainTitle:
         "Bring your new furry family member home with a little help from us!",
       subtext:
@@ -637,7 +637,7 @@ const data = {
       content2:
         "“Thank you so very much for your care and support facilitating our recent cross-border transfer. We are eternally grateful for your collective work helping this wee international traveler/pup from her only known home in Kelowna to ours, in Anacortes, just in time to melt our hearts and upend our lives.”",
 
-      type: "radioButton",
+      type: "radio",
       choices: [
         "I am ready (I want to start rignt now)",
         "I'm not ready(I need more information. *Please call me)",
@@ -809,7 +809,7 @@ const data = {
     {
       id: "2000",
       question: "I plan to:",
-      type: "radioButton",
+      type: "radio",
       choices: [
         "Only import once",
         "2 - 5 times per year",
@@ -827,7 +827,7 @@ const data = {
       id: "2010",
       title: "Contact",
       question: "Great, may I ask if you have contacted us previously? *",
-      type: "radioButton",
+      type: "radio",
       choices: ["Yes", "No"],
     },
     {
@@ -890,23 +890,29 @@ const data = {
     {
       id: "2013",
       question: "Whom are we speaking with?",
-      label: "First Name *",
-      type: "text",
-    },
-    {
-      id: "2014",
-      label: "Last Name *",
-      type: "text",
-    },
-    {
-      id: "2015",
-      label: "Email *",
-      type: "text",
-    },
-    {
-      id: "2016",
-      label: "What is the best Phone Number to reach you at? *",
-      type: "text",
+      type: "form",
+      forms: [
+        {
+          id: "2014",
+          label: "First Name *",
+          type: "text",
+        },
+        {
+          id: "2015",
+          label: "Last Name *",
+          type: "text",
+        },
+        {
+          id: "2016",
+          label: "Email *",
+          type: "text",
+        },
+        {
+          id: "2017",
+          label: "What is the best Phone Number to reach you at? *",
+          type: "text",
+        },
+      ]
     },
     {
       id: "2020",
@@ -999,13 +1005,13 @@ const data = {
     {
       id: "2049",
       question: "Physical Address same as Billing/Mailing Address?",
-      type: "radioButton",
+      type: "radio",
       choices: ["Yes", "No"],
     },
     {
       id: "2050",
       question: "Company Type",
-      type: "radioButton",
+      type: "radio",
       choices: [
         "Sole Proprietorship",
         "Partnership",
@@ -1034,7 +1040,7 @@ const data = {
           question: "Are you currently importing?",
           subtext:
             "CSG Note: If the contact filled out a web form, they will have indicated if they are working with a broker. Check this information in the prospecting ticket and answer the next two questions accordingly.",
-          type: "radioButton",
+          type: "radio",
           choices: ["Yes", "No"],
         },
         {
@@ -1049,19 +1055,19 @@ const data = {
         {
           id: "2103",
           question: "Are you importing temporarily?",
-          type: "radioButton",
+          type: "radio",
           choices: ["Yes", "No"],
         },
         {
           id: "2104",
           question: "Are they importing as a Non-Resident?",
-          type: "radioButton",
+          type: "radio",
           choices: ["Yes", "No"],
         },
         {
           id: "2105",
           question: "Do you have your own importer bond?",
-          type: "radioButton",
+          type: "radio",
           choices: ["Yes", "No"],
         },
         {
@@ -1099,7 +1105,7 @@ const data = {
         {
           id: "2112",
           question: "Have you made arrangements to move the freight?",
-          type: "radioButton",
+          type: "radio",
           choices: ["Yes", "No"],
         },
         {
@@ -1110,13 +1116,13 @@ const data = {
         {
           id: "2114",
           question: "Have the goods already been shipped?",
-          type: "radioButton",
+          type: "radio",
           choices: ["Yes", "No"],
         },
         {
           id: "2115",
           question: "What mode of transport are they being shipped by?",
-          type: "radioButton",
+          type: "radio",
           choices: [
             "Carrier: Highway",
             " Client: Highway",
@@ -1133,7 +1139,7 @@ const data = {
             "For example, are they being shipped to a port, to a fulfillment center or business, where you will then have to arrange further delivery to the ultimate destination?",
           subtext1:
             "Note for CSG: The best freight opportunities exist with incoterms FOB, EXW, and FCA. Use below for laymen's explanations of each. If this importer is shipping by one of these terms, please select the applicable term below.",
-          type: "radioButton",
+          type: "radio",
           choices: [
             "FOB Foreign country (Delivered to an ocean port and made available to the importer from there)",
             "FOB Destination country (Delivered to an ocean port and made available to the importer from there)",
@@ -1154,7 +1160,7 @@ const data = {
             "Will you be managing your tariff classification or would you like us to do so on your behalf?",
           subtext:
             " If you manage it, you will need to classify, assign and provide it on the paperwork. You will also be required to keep it updated with any changes. Otherwise, we will classify & assign upon receipt of your paperwork.",
-          type: "radioButton",
+          type: "radio",
           choices: ["Client", "Broker"],
         },
         {
@@ -1166,7 +1172,7 @@ const data = {
           id: "2120",
           question:
             "Do you or will you take advantage of Free Trade Agreements?",
-          type: "radioButton",
+          type: "radio",
           choices: ["Yes", "No"],
         },
         {
@@ -1209,7 +1215,7 @@ const data = {
           id: "2300",
           title: "Payment",
           question: "How will they be paying?",
-          type: "radioButton",
+          type: "radio",
           choices: [
             "Credit Card",
             "Debit (requires in-person visit to PCB)",
@@ -1221,7 +1227,7 @@ const data = {
           id: "2400",
           title: "Projections",
           question: "Opportunities for Additional Services?",
-          type: "radioButton",
+          type: "radio",
           choices: [
             "Freight Management",
             "Project Management",

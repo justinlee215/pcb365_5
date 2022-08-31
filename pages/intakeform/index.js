@@ -65,6 +65,10 @@ export default function IntakeformPage(props) {
     new Array(data.questions[8].choices.length).fill(false)
   );
 
+  const [checkedState3, setCheckedState3] = useState(
+    new Array(data.questions[35].choices.length).fill(false)
+  );
+
   useEffect(() => {
     console.log("answer: ", answer);
   }, [answer]);
@@ -120,6 +124,24 @@ export default function IntakeformPage(props) {
     setIntakeform({ ...intakeform, [e.target.name]: e.target.value });
     console.log("answer: ", answer);
     console.log("IntakeForm: ", intakeform);
+  };
+
+  const handleChangeCheckbox = (id, i) => {
+    console.log("index: ", i);
+
+    let mapped = checkedState3.map((ele, ind) => {
+      if (i == ind) {
+        return !ele;
+      }
+      return ele;
+    });
+
+    console.log("mapped state: ", mapped);
+    setCheckedState3(mapped);
+    setIntakeform({ ...intakeform, [id]: mapped });
+
+    console.log("Intakeform: ", intakeform);
+    console.log("CheckedState: ", checkedState3);
   };
 
   const handleSubmit = async (e) => {
@@ -293,7 +315,7 @@ export default function IntakeformPage(props) {
               style={{ marginTop: "2rem", marginBottom: "1rem" }}
             >
               <h3>{question.question}</h3>
-              {question.type == "radioButton" ? (
+              {question.type == "radio" ? (
                 // question.choices.map((choice, i) => (
                 //     <div key={data.questions[2].question + i}>
                 //         <Radio
@@ -312,7 +334,7 @@ export default function IntakeformPage(props) {
                 />
               ) : question.type == "select" ? (
                 <Select
-                  choices={question.choices}
+                  choices={question.choices.map(choice => choice.name)}
                   question={question.question}
                   name={question.id}
                   value={intakeform[question.id]}
@@ -372,6 +394,8 @@ export default function IntakeformPage(props) {
     <div key={ele + i}>
       {ele.id == 52 ? (
         <div>
+          <p>ele.id: {ele.id}</p>
+
           {intakeform[51] == "1" ? (
             <>
               <h3>{ele.title}</h3>
@@ -392,6 +416,7 @@ export default function IntakeformPage(props) {
         </div>
       ) : ele.id == 56 ? (
         <div>
+          <p>ele.id: {ele.id}</p>
           <h3>{ele.title}</h3>
           {intakeform[55] == "1" ? (
             <>
@@ -450,10 +475,40 @@ export default function IntakeformPage(props) {
               <h6>{ele.contentTitleSub}</h6>
               <p>{ele.content5}</p>
             </>
-          ) : null}
+          ) : null
+          }
         </div>
-      ) : (
+         ) : ele.id == 58 ? (
+          <>
+            <p>ele.id: {ele.id}</p>
+           <h4>hello id 58!</h4>
+              {
+              intakeform[57] == "1" ? (
+            <>
+            57은 1을 골랐네
+              <h5>{ele.subtext}</h5>
+              <p>{ele.content}</p>
+              <p>{ele.paragraph}</p>
+              <p>{ele.paragraphSecond}</p>
+              <h5>{ele.contentTitle}</h5>
+              <h6>{ele.contentTitleSub}</h6>
+              <h5>{ele.contentTitle2}</h5>
+
+              <h5>{ele.contentTitle3}</h5>
+              <h6>{ele.contentBold1}</h6>
+              <p>{ele.content1}</p>
+            </>
+          ) : 
+          intakeform[57] == "2" ? (
+                <>57은 2를 골랐네</> 
+      ) : null
+        }
+        </>)
+        :
+      (
         <>
+          <p>ele.id: {ele.id}</p>
+
           <h3>{ele.title}</h3>
           <h5>{ele.subtext}</h5>
           <h5>{ele.subtext1}</h5>
@@ -468,7 +523,7 @@ export default function IntakeformPage(props) {
 
           <div>
             <h5>{ele.question}</h5>
-            {ele.choices?.map((choice, idx) => (
+            {/* {ele.choices?.map((choice, idx) => (
               <div key={choice + idx} style={{ margin: "1rem 0" }}>
                 <Radio
                   label={choice}
@@ -484,11 +539,58 @@ export default function IntakeformPage(props) {
                   }}
                 />
               </div>
-            ))}
+            ))} */}
+                {ele.type == "radio" &&
+                  <HorizontalRadioBoxes item={ele} intakeform={intakeform} handleChange={handleChange} />
+                  // ele.choices.map((choice, idx) => (
+                  //   <div key={choice + idx}>
+                  //     <Radio label={choice} />
+                  //   </div>
+                  // ))
+                }
+                {ele.type == "text" && (
+                  <div style={{ margin: "2rem 0" }}>
+                    <Input
+                      label={ele.label}
+                      style={{ margin: "1rem 0" }}
+                      value={intakeform[ele.id]}
+                      name={ele.id}
+                      handleChange={handleChange}
+                    />
+                  </div>
+                )}
+                {ele.type == "select" && (
+                  <div style={{ margin: "2rem 0" }}>
+                    <Select
+                      label={ele.label}
+                      style={{ margin: "1rem 0" }}
+                      value={intakeform[ele.id]}
+                      name={ele.id}
+                      choices={ele.choices}
+                      handleChange={handleChange}
+                    />
+                  </div>
+                )}
+                {ele.type == "form" &&
+                  ele.forms.map((form, idx) => (
+                    <div key={form + idx}>
+                      <Input type={form.type} label={form.label} name={form.id} value={intakeform[form.id]} handleChange={handleChange} />
+                    </div>
+                  ))
+                }
+                {ele.type == "checkbox" &&
+                  <VerticalCheckBoxes
+                    index={ele.id}
+                    item={ele}
+                    intakeform={intakeform}
+                    handleChangeCheckbox={handleChangeCheckbox}
+                  />
+                }
             {/* {ele.type == "button" && <button>{ele.buttonText}</button>} */}
           </div>
         </>
-      )}
+      )
+     }
     </div>
   ));
 
@@ -603,7 +705,8 @@ export default function IntakeformPage(props) {
       <>
         <h3>Commercial</h3>
 
-        {dataCommercial.choices.map((choice, i) => (
+        < VerticalRadioBoxes item={dataCommercial} intakeform={intakeform} handleChange={handleChange}/>
+        {/* {dataCommercial.choices.map((choice, i) => (
           <Radio
             key={choice + i}
             label={choice}
@@ -616,14 +719,14 @@ export default function IntakeformPage(props) {
               console.log("intakeform: ", intakeform);
             }}
           />
-        ))}
+        ))} */}
       </>
     );
   };
 
   const CommercialPages = dataCommercials.map((ele, i) => (
     <div key={ele + i}>
-      <div>commercial page: {i + 1}</div>
+      <div>Commercial page: {i + 1}</div>
       <h3>{ele.title}</h3>
       <h3>{ele.mainTitle}</h3>
       <h5>{ele.title1?.title}</h5>
@@ -640,11 +743,13 @@ export default function IntakeformPage(props) {
         <h5>{ele.question}</h5>
 
         {ele.type == "radio" &&
-          ele.choices.map((choice, idx) => (
-            <div key={choice + idx}>
-              <Radio label={choice} />
-            </div>
-          ))}
+          <HorizontalRadioBoxes item={ele} intakeform={intakeform} handleChange={handleChange}/>
+          // ele.choices.map((choice, idx) => (
+          //   <div key={choice + idx}>
+          //     <Radio label={choice} />
+          //   </div>
+          // ))
+          }
         {ele.type == "text" && (
           <div style={{ margin: "2rem 0" }}>
             <Input
@@ -656,6 +761,33 @@ export default function IntakeformPage(props) {
             />
           </div>
         )}
+        {ele.type == "select" && (
+          <div style={{ margin: "2rem 0" }}>
+            <Select
+              label={ele.label}
+              style={{ margin: "1rem 0" }}
+              value={intakeform[ele.id]}
+              name={ele.id}
+              choices={ele.choices}
+              handleChange={handleChange}
+            />
+          </div>
+        )}
+        {ele.type == "form" &&
+          ele.forms.map((form, idx) => (
+            <div key={form + idx}>
+              <Input type={form.type} label={form.label} name={form.id} value={intakeform[form.id]} handleChange={handleChange}/>
+            </div>
+          ))
+        }
+        {ele.type == "checkbox" &&
+        <VerticalCheckBoxes 
+            index={ele.id}
+          item={ele}
+          intakeform={intakeform}
+          handleChangeCheckbox={handleChangeCheckbox}
+        />
+      }
       </div>
     </div>
   ));
@@ -756,7 +888,22 @@ export default function IntakeformPage(props) {
               }
               console.log("commercial go");
               console.log("step: ", step);
-            } else {
+            } else if (step == 2 && intakeform[4] == 2 ) {
+              setStep(step + 10);
+              if (progress !== 100) {
+                setProgress((prev) => prev + 5);
+              }
+              console.log("horse go");
+              console.log("step: ", step);
+            }else if (step == 2 && intakeform[4] == 3) {
+              setStep(step + 13);
+                if (progress !== 100) {
+                  setProgress((prev) => prev + 5);
+                }
+              console.log("car go");
+              console.log("step: ", step);
+            }
+            else {
               setStep(step + 1);
               if (progress !== 100) {
                 setProgress((prev) => prev + 5);
@@ -791,55 +938,6 @@ export default function IntakeformPage(props) {
 
   // useEffect(() => console.log("wizards: ", wizards), [wizards]);
 
-  function ToggleButtonExample() {
-    const [checked, setChecked] = useState(false);
-    const [radioValue, setRadioValue] = useState("1");
-
-    const radios = [
-      { name: "1", value: "1" },
-      { name: "2", value: "2" },
-      { name: "3", value: "3" },
-    ];
-
-    return (
-      <>
-        <ButtonGroup className="mb-2">
-          {radios.map((radio, idx) => (
-            <ToggleButton
-              key={idx}
-              id={`radio-${idx}`}
-              type="radio"
-              variant="secondary"
-              name="radio"
-              value={radio.value}
-              checked={radioValue === radio.value}
-              onChange={(e) => setRadioValue(e.currentTarget.value)}
-            >
-              {radio.name}
-            </ToggleButton>
-          ))}
-        </ButtonGroup>
-        <br />
-
-        <ToggleButtonGroup vertical={true} name="radio1">
-          {radios.map((radio, idx) => (
-            <ToggleButton
-              key={idx}
-              id={`radio-${idx}`}
-              type="radio"
-              variant={"outline-danger"}
-              name="radio1"
-              value={radio.value}
-              checked={radioValue === radio.value}
-              onChange={(e) => setRadioValue(e.currentTarget.value)}
-            >
-              {radio.name}
-            </ToggleButton>
-          ))}
-        </ToggleButtonGroup>
-      </>
-    );
-  }
 
   return (
     <div className={intakeCSS.containerbox}>
@@ -869,7 +967,7 @@ export default function IntakeformPage(props) {
           </div>
           <div className={intakeCSS.formSection}>
             <h1>Get a Quote</h1>
-            {/* step: {step} */}
+            step: {step}
             <ProgressBar
               now={progress}
               // label={`${progress}`}

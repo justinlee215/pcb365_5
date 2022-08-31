@@ -16,8 +16,8 @@ export const VerticalCheckBoxes = ({
           type="checkbox"
           variant={"outline-primary"}
           name={item.id}
-          value={intakeform[1]?.[idx]}
-          checked={intakeform[1]?.[idx]}
+          value={intakeform[item.id]?.[idx]}
+          checked={intakeform[item.id]?.[idx]}
           onChange={() => handleChangeCheckbox(index, idx)}
           style={{
             width: "20rem",
